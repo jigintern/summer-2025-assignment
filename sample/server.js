@@ -18,6 +18,23 @@ serve(async (request) => {
         return new Response(previousWord);
     }
 
+    // POST /shiritori: 次の単語を入力する
+    if (request.method === "POST" && pathname === "/shiritori") {
+        // リクエストのペイロードを取得
+        const requestJson = await request.json();
+        // JSONの中からnextWordを取得
+        const nextWord = requestJson["nextWord"];
+
+        // previousWordの末尾とnextWordの先頭が同一か確認
+        if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
+            // 同一であれば、previousWordを更新
+            previousWord = nextWord;
+        }
+
+        // 現在の単語を返す
+        return new Response(previousWord);
+    }
+
     // ./public以下のファイルを公開
     return serveDir(
         request,
