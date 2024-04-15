@@ -3,10 +3,11 @@
 import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
 // localhostにDenoのHTTPサーバを展開
-serve(request => {
+serve(async (request) => {
+    const htmlText = await Deno.readTextFile("./public/index.html");
     return new Response(
         // Responseの第一引数にレスポンスのbodyを設置
-        "<h1>H1見出しです</h1>",
+        htmlText,
         // Responseの第二引数にヘッダ情報等の付加情報を設置
         {
             // レスポンスにヘッダ情報を付加
