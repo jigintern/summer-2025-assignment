@@ -2,11 +2,18 @@
 // denoではURLを直に記載してimportできます
 import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
-// アクセス数を保持する変数をグローバル領域に定義
-let count = 0;
-
 // localhostにDenoのHTTPサーバを展開
 serve(request => {
-    count++;
-    return new Response(`Count: ${count}`);
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        "<h1>H1見出しです</h1>",
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
 });
