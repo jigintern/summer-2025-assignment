@@ -17,3 +17,51 @@
 > GitHubのアカウントを複数持つことは利用規約で禁止されています。既にアカウントをお持ちの方は、そちらのアカウントをご利用ください
 
 https://github.com/
+
+## Step 1. Denoのインストール
+
+### Deno (ディーノ) とは
+
+Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバの処理を実装できます。
+ここでは、入門者向けとしてJavaScriptを使用します。TypeScriptの使用方法が分かる方は、そちらを使用していただいても問題ありません。
+
+Webフロントエンドで多く用いられるJavaScriptを使用するため、フロントエンドとバックエンドを同一言語で実装できます。  
+DenoはNode.jsの作者であるライアン・ダール氏によって実装されたランタイムで、Node.jsをブラッシュアップしたものとなっています。
+
+> Denoという名前は、Nodeのアナグラムだそうですよ！
+
+### Denoのインストール
+
+公式サイトの説明に従い、Denoをインストールしてみましょう。
+
+https://docs.deno.com/runtime/manual
+
+「Install Deno」の項目に記載されたコマンドをご自身のOSに合わせて実行するだけで、インストールが可能です。  
+インストールが完了したら、以下のコマンドを実行してみましょう。バージョン情報が表示されればOKです！
+
+```sh
+# 入力
+deno --version
+
+# 出力
+# deno 1.42.2 (release, aarch64-apple-darwin)
+# v8 12.3.219.9
+# typescript 5.4.3
+```
+
+### DenoでHello World
+
+Hello Worldプログラムを作って実行してみましょう。  
+空のフォルダを作り、中に `server.js` を作成して、以下のプログラムを書き込んでください。
+
+```js
+console.log("Hello World!");
+```
+
+保存が完了したら、Denoで実行してみましょう！
+
+```sh
+deno server.js
+
+# Hello World!
+```
