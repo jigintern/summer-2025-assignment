@@ -45,6 +45,14 @@
           body: JSON.stringify({ nextWord: nextWordInputText })
         }
       );
+
+      // status: 200以外が返ってきた場合にエラーを表示
+      if (response.status !== 200) {
+        const message = await response.text();
+        alert(message);
+        return;
+      }
+
       const previousWord = await response.text();
 
       // id: previousWordのタグを取得

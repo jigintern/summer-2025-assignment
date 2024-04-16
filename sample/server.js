@@ -30,6 +30,10 @@ serve(async (request) => {
             // 同一であれば、previousWordを更新
             previousWord = nextWord;
         }
+        // 同一でない単語の入力時に、エラーを返す
+        else {
+            return new Response("前の単語に続いていません", { status: 400 });
+        }
 
         // 現在の単語を返す
         return new Response(previousWord);
