@@ -669,3 +669,59 @@ serve(async (request) => {
 2. ブラウザを読み込み直して、入力フォームが表示されていればOKです！
 
 > Topic: 単語を色々入力して、しりとりとして成立しているか確認してみましょう
+
+## Step 10. しりとりの実装: エラーを実装してみよう
+
+「りんご」の次に「らっぱ」などの続かない単語が入力された時に、エラーを表示できるようにしてみましょう。Webとサーバーを以下のように書き換えてください。
+
+1. `server.js`ファイルを以下の内容で編集します。
+
+```diff
+    // POST /shiritori: 次の単語を入力する
+    if (request.method === "POST" && pathname === "/shiritori") {
+        // リクエストのペイロードを取得
+        const requestJson = await request.json();
+        // JSONの中からnextWordを取得
+        const nextWord = requestJson["nextWord"];
+        // previousWordの末尾とnextWordの先頭が同一か確認
+        if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
+            // 同一であれば、previousWordを更新
+            previousWord = nextWord;
+        }
++         // 同一でない単語の入力時に、エラーを返す
++         else {
++             return new Response("前の単語に続いていません", { status: 400 });
++         }
+```
+
+2. `public/index.html`ファイルを以下の内容で編集します。
+
+```diff
+    // 送信ボタンの押下時に実行
+    document.querySelector("#nextWordSendButton").onclick = async(event) => {
+      // inputタグを取得
+      const nextWordInput = document.querySelector("#nextWordInput");
+      // inputの中身を取得
+      const nextWordInputText = nextWordInput.value;
+      // POST /shiritoriを実行
+      // 次の単語をresponseに格納
+      const response = await fetch(
+        "/shiritori",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nextWord: nextWordInputText })
+        }
+      );
++ 
++       // status: 200以外が返ってきた場合にエラーを表示
++       if (response.status !== 200) {
++         const message = await response.text();
++         alert(message);
++         return;
++       }
+
+      const previousWord = await response.text();
+```
+
+3. ブラウザを再読み込みして、不正な単語を入力してみましょう。アラートが表示されればOKです！
