@@ -416,3 +416,88 @@ serve(async (request) => {
 ```
 
 2. ブラウザを再読み込みして、先程と同じ内容が表示されればOKです！
+
+## Step 7. しりとりの実装: サーバーの処理を実装してみよう
+
+ここからは、実際に「しりとり」をするWebアプリを実装します。
+実装するアプリは、以下の仕様を満たしたものとします。
+
+1. 直前の単語が表示できる
+2. 次の単語を入力できる
+3. 直前の単語の末尾と入力した単語の先頭が同一であれば、単語を更新。同一でなければ、エラーを表示する
+
+このセクションでは、サーバー側の処理を実装します。前セクションまでで実装した内容をベースにして実装を進めましょう。
+
+### `GET /shiritori`を実装しよう
+
+仕様1を満たすため、サーバーに保存されている直前の単語を取得できるようにしましょう。
+
+`GET /shiritori`からデータを取得できるようにします。
+
+1. `server.js`ファイルを以下の内容で編集します。
+
+```diff
+...
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
+
++ // 直前の単語を保持しておく
++ let previousWord = "しりとり";
++ 
+// localhostにDenoのHTTPサーバを展開
+serve(async (request) => {
+    // パス名を取得する
+    // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+    const pathname = new URL(request.url).pathname;
+    console.log(`pathname: ${pathname}`);
+
++     // GET /shiritori: 直前の単語を返す
++     if (request.method === "GET" && pathname === "/shiritori") {
++         return new Response(previousWord);
++     }
++ 
+    // ./public以下のファイルを公開
+    return serveDir(
+        request,
+...	
+```
+
+2. ブラウザで`https://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
+
+### `POST /shiritori`を実装しよう
+
+仕様2を満たすため、サーバーに保存されている単語を、受け取ったデータで更新できるようにしましょう。
+
+`POST /shiritori`でデータを更新できるようにします。
+
+1. `server.js`ファイルを以下の内容で編集します。
+
+```diff
+    // GET /shiritori: 直前の単語を返す
+    if (request.method === "GET" && pathname === "/shiritori") {
+        return new Response(previousWord);
+    }
+
++     // POST /shiritori: 次の単語を入力する
++     if (request.method === "POST" && pathname === "/shiritori") {
++         // リクエストのペイロードを取得
++         const requestJson = await request.json();
++         // JSONの中からnextWordを取得
++         const nextWord = requestJson["nextWord"];
++ 
++         // previousWordの末尾とnextWordの先頭が同一か確認
++         if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
++             // 同一であれば、previousWordを更新
++             previousWord = nextWord;
++         }
++ 
++         // 現在の単語を返す
++         return new Response(previousWord);
++     }
++ 
+    // ./public以下のファイルを公開
+    return serveDir(
+        request,
+```
+
+2. `POST`のリクエストの送信は専用のツールやOSによって異なるコマンドが必要なので、動作確認はスキップして、次のセクションに進みましょう。もし動作確認の方法が分かるようであれば、動作確認してみてください。
