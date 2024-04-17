@@ -54,7 +54,7 @@ deno --version
 Hello Worldプログラムを作って実行してみましょう。  
 空のフォルダを作り、中に `server.js` を作成して、以下のプログラムを書き込んでください。
 
-```js
+```
 console.log("Hello World!");
 ```
 
@@ -110,7 +110,7 @@ Denoが提供している`serve`関数を利用することで、簡単にHTTP�
 
 1. `server.js`の内容を以下のように書き換えて保存してください。
 
-```js
+```
 // server.js
 
 // deno.landに公開されているモジュールをimport
@@ -136,3 +136,38 @@ deno run --allow-net server.js
 ![](./imgs/04_tutorial-hello-deno.png)
 
 5. 動作が確認できたら、「Control+C」でプログラムを終了します。
+
+## Step 4. サーバーに変数を定義してみよう
+
+HTTPサーバー上にアクセス数をカウントする変数を追加して、アクセス数を確認してみましょう。
+
+1. `server.js`ファイルを以下の内容で編集します。
+
+```diff
+// server.js
+
+// denoではURLを直に記載してimportできます
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+
++ // アクセス数を保持する変数をグローバル領域に定義
++ let count = 0;
++ 
+// localhostにDenoのHTTPサーバを展開
+serve(request => {
+-     return new Response("Hello Deno!");
++     count++;
++     return new Response(`Count: ${count}`);
+});
+```
+
+2. `--allow-net`に加えて、`--watch`オプションを追加して`server.js`を起動してください。このオプションを指定すると、Denoがファイルの変更を自動でサーバーに反映してくれます。
+
+```sh
+deno run --allow-net --watch server.js
+```
+
+3. ブラウザで`http://localhost:8000`にアクセスしてみましょう。
+
+4. 何回かアクセスして、ブラウザにアクセス回数が表示されればOKです！尚、ブラウザが自動で`/favicon.ico`を取得しようとするため、カウントが2ずつカウントアップすることがあります。
+
+![](./imgs/05_tutorial-access-count.png)
