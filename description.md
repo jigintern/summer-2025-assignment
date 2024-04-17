@@ -97,3 +97,42 @@ VS CodeにDenoの拡張機能をインストールしましょう。画面左側
 ![](./imgs/02_vscode-deno-setup.png)
 
 ![](./imgs/03_vscode-deno-setup-check.png)
+
+
+## Step 3. DenoでHTTPサーバーを立ててみよう
+
+DenoでHTTPサーバーを立ち上げてみましょう。
+
+HTTPサーバーとは、HTTP (HyperText Transfer Protocol) でブラウザと通信するサーバーです。HTTPサーバー上に処理やデザイン等を記述することで、様々なWebアプリを動作させられます。  
+Denoが提供している`serve`関数を利用することで、簡単にHTTPサーバーを立ち上げることができます。
+
+以下に実装と作動の手順を示します。
+
+1. `server.js`の内容を以下のように書き換えて保存してください。
+
+```js
+// server.js
+
+// deno.landに公開されているモジュールをimport
+// denoではURLを直に記載してimportできます
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+
+// localhostにDenoのHTTPサーバを展開
+serve(request => {
+    return new Response("Hello Deno!");
+});
+```
+
+2. `--allow-net`オプションをつけて`server.js`を起動してください。このオプションがない場合、Denoがネットワークにアクセスできません。
+
+```sh
+deno run --allow-net server.js
+```
+
+3. ブラウザで`http://localhost:8000`にアクセスしてみましょう。
+
+4. ブラウザに`Hello Deno!`と表示されればOKです！
+
+![](./imgs/04_tutorial-hello-deno.png)
+
+5. 動作が確認できたら、「Control+C」でプログラムを終了します。
