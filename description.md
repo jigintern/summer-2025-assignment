@@ -22,7 +22,7 @@ https://github.com/
 
 ### Deno (ディーノ) とは
 
-Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバの処理を実装できます。
+Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーの処理を実装できます。
 ここでは、入門者向けとしてJavaScriptを使用します。TypeScriptの使用方法が分かる方は、そちらを使用していただいても問題ありません。
 
 Webフロントエンドで多く用いられるJavaScriptを使用するため、フロントエンドとバックエンドを同一言語で実装できます。  
