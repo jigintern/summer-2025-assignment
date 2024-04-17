@@ -22,7 +22,7 @@ https://github.com/
 
 ### Deno (ディーノ) とは
 
-Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーの処理を実装できます。
+Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーーの処理を実装できます。
 ここでは、入門者向けとしてJavaScriptを使用します。TypeScriptの使用方法が分かる方は、そちらを使用していただいても問題ありません。
 
 Webフロントエンドで多く用いられるJavaScriptを使用するため、フロントエンドとバックエンドを同一言語で実装できます。  
@@ -219,7 +219,9 @@ serve(request => {
 
 ![](./imgs/06_tutorial-h1-tag.png)
 
-## Step 6. HTMLファイルを読み込んでみよう
+## Step 6. ファイルサーバを実装してみよう
+
+### HTMLファイルを読み込んでみよう
 
 直前のセクションではHTMLを文字列としてスクリプト内に直に記述しましたが、別のファイルとして保存しておいたものを読み込むようにしてみましょう。
 
@@ -280,10 +282,9 @@ import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
 ![](./imgs/07_tutorial-read-file.png)
 
-## Step 7. CSSファイルを読み込んでみよう
+### CSSファイルを読み込んでみよう
 
 CSSファイルを作成して、読み込めるようにしてみましょう。`index.html`とは別に`styles.css`を作成し、このファイルを読み込めるようにします。
-
 
 1. `public`フォルダの中に、`styles.css`を作成します。
 
@@ -350,3 +351,68 @@ serve(async (request) => {
 3. ブラウザを再読み込みして、背景が青くなっていればOKです！
 
 ![](./imgs/08_tutorial-read-css-file.png)
+
+### publicフォルダ全体を公開してみよう
+
+ページ数が増えた場合に、返すファイルを一つ一つ指定するのは手間がかかります。  
+そこで、`public`以下を静的ファイルサーバーとして公開し、ここに入れたファイルは自動で公開されるようにしてみましょう。
+
+1. `server.js`ファイルを以下の内容で編集します。
+
+```diff
+// deno.landに公開されているモジュールをimport
+// denoではURLを直に記載してimportできます
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
++ import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
+
+// localhostにDenoのHTTPサーバを展開
+serve(async (request) => {
+    // パス名を取得する
+    // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+    const pathname = new URL(request.url).pathname;
+    console.log(`pathname: ${pathname}`);
+
+-     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
+-     if (pathname === "/styles.css") {
+-         const cssText = await Deno.readTextFile("./public/styles.css");
+-         return new Response(
+-             cssText,
+-             {
+-                 headers: {
+-                     // text/css形式のデータで、文字コードはUTF-8であること
+-                     "Content-Type": "text/css; charset=utf-8"
+-                 }
+-             }
+-         );
+-     }
+- 
+-     const htmlText = await Deno.readTextFile("./public/index.html");
+-     return new Response(
+-         // Responseの第一引数にレスポンスのbodyを設置
+-         htmlText,
+-         // Responseの第二引数にヘッダ情報等の付加情報を設置
+-             // レスポンスにヘッダ情報を付加
+-             headers: {
+-                 // text/html形式のデータで、文字コードはUTF-8であること
+-                 "Content-Type": "text/html; charset=utf-8"
+-             }
+-     );
++     // ./public以下のファイルを公開
++     return serveDir(
++         request,
++         {
++             /*
++             - fsRoot: 公開するフォルダを指定
++             - urlRoot: フォルダを展開するURLを指定。今回はlocalhost:8000/に直に展開する
++             - enableCors: CORSの設定を付加するか
++             */
++             fsRoot: "./public/",
++             urlRoot: "",
++             enableCors: true,
++         }
++     );
+
+});
+```
+
+2. ブラウザを再読み込みして、先程と同じ内容が表示されればOKです！
