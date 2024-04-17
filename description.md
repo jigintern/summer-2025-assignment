@@ -527,3 +527,145 @@ serve(async (request) => {
 ```
 
 2. `POST`のリクエストの送信は専用のツールやOSによって異なるコマンドが必要なので、動作確認はスキップして、次のセクションに進みましょう。もし動作確認の方法が分かるようであれば、動作確認してみてください。
+
+## Step 9. しりとりの実装: Webの処理を実装してみよう
+
+前セクションの内容を踏まえて、Web側の処理を実装しましょう。
+
+### `GET /shiritori`の結果を表示する
+
+`GET /shiritori`にアクセスして、直前の単語を取得します。以下のようにして実装してみましょう。
+
+1. `public/index.html`ファイルを以下の内容で編集します。`fetch`を利用して`GET /shiritori`にリクエストを送信し、受信したデータを`p`タグに挿入します。
+
+```diff
+...
+<!-- bodyタグの中には実際に表示するものなどを書く -->
+<body>
+-   <h1>H1見出しですよ</h1>
++   <h1>しりとり</h1>
++   <!-- 現在の単語を表示する場所 -->
++   <p id="previousWord"></p>
+
+  <!-- JavaScriptを実行 -->
+  <script>
+-     alert("Hello JavaScript!");
++     window.onload = async (event) => {
++       // GET /shiritoriを実行
++       const response = await fetch("/shiritori", { method: "GET" });
++       // responseの中からレスポンスのテキストデータを取得
++       const previousWord = await response.text();
++       // id: previousWordのタグを取得
++       const paragraph = document.querySelector("#previousWord");
++       // 取得したタグの中身を書き換える
++       paragraph.innerHTML = `前の単語: ${previousWord}`;
++     }
+  </script>
+</body>
+...
+```
+
+2. ブラウザを`https://localhost:8000`で再読み込みして、「しりとり」と表示されればOKです！
+
+> Topic: サーバー側の`previousWord`を書き換えて、反映されるか確認してみましょう
+
+### （起動時に）`POST /shiritori`に次の単語を送信してみよう
+
+`POST /shiritori`にアクセスして、次の単語を入力してみましょう。ここでは、ブラウザの起動時に勝手に「りんご」と送信されるようにしてみます。
+
+1. `public/index.html`ファイルを以下の内容で編集します。`GET`同様、`fetch`を使用して`POST /shiritori`にリクエストを送信します。
+
+```diff
+  <!-- JavaScriptを実行 -->
+  <script>
+    window.onload = async (event) => {
++       // 試しでPOST /shiritoriを実行してみる
++       // りんごと入力……
++       await fetch(
++         "/shiritori",
++         {
++           method: "POST",
++           headers: { "Content-Type": "application/json" },
++           body: JSON.stringify({ nextWord: "りんご" })
++         }
++       );
++ 
+      // GET /shiritoriを実行
+      const response = await fetch("/shiritori", { method: "GET" });
+      // responseの中からレスポンスのテキストデータを取得
+```
+
+2. ブラウザを再読み込みして、「りんご」と表示されればOKです！
+
+> Topic: サーバー側の`previousWord`やWeb側の`nextWord`を書き換えて、反映されるか確認してみましょう。しりとりとして単語が繋がっていなければ、更新されないようになっていることも確認しましょう
+
+### `POST /shiritori`に任意の単語を送信してみよう
+
+起動時にサーバーの値を書き換えることができました。次に、任意の単語を送信できるようにしてみましょう。
+
+1. `public/index.html`ファイルを以下の内容で編集します。送信ボタンが押下された時に`input`タグの中身を取得して、`POST /shiritori`に送信します。
+
+```diff
+ <h1>しりとり</h1>
+  <!-- 現在の単語を表示する場所 -->
+  <p id="previousWord"></p>
++   <!-- 次の文字を入力するフォーム -->
++   <input id="nextWordInput" type="text" />
++   <button id="nextWordSendButton">送信</button>
+
+  <!-- JavaScriptを実行 -->
+  <script>
+    window.onload = async (event) => {
+-       // 試しでPOST /shiritoriを実行してみる
+-       // りんごと入力……
+-       await fetch(
+-         "/shiritori",
+-         {
+-           method: "POST",
+-           headers: { "Content-Type": "application/json" },
+-           body: JSON.stringify({ nextWord: "りんご" })
+-         }
+-       );
+      // GET /shiritoriを実行
+      const response = await fetch("/shiritori", { method: "GET" });
+      // responseの中からレスポンスのテキストデータを取得
+      const previousWord = await response.text();
+      // id: previousWordのタグを取得
+      const paragraph = document.querySelector("#previousWord");
+      // 取得したタグの中身を書き換える
+      paragraph.innerHTML = `前の単語: ${previousWord}`;
+    }
+
++     // 送信ボタンの押下時に実行
++     document.querySelector("#nextWordSendButton").onclick = async(event) => {
++       // inputタグを取得
++       const nextWordInput = document.querySelector("#nextWordInput");
++       // inputの中身を取得
++       const nextWordInputText = nextWordInput.value;
++       // POST /shiritoriを実行
++       // 次の単語をresponseに格納
++       const response = await fetch(
++         "/shiritori",
++         {
++           method: "POST",
++           headers: { "Content-Type": "application/json" },
++           body: JSON.stringify({ nextWord: nextWordInputText })
++         }
++       );
++ 
++       const previousWord = await response.text();
++ 
++       // id: previousWordのタグを取得
++       const paragraph = document.querySelector("#previousWord");
++       // 取得したタグの中身を書き換える
++       paragraph.innerHTML = `前の単語: ${previousWord}`;
++       // inputタグの中身を消去する
++       nextWordInput.value = "";
++     }
+  </script>
+</body>
+```
+
+2. ブラウザを読み込み直して、入力フォームが表示されていればOKです！
+
+> Topic: 単語を色々入力して、しりとりとして成立しているか確認してみましょう
