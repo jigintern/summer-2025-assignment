@@ -279,3 +279,74 @@ import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 4. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
 
 ![](./imgs/07_tutorial-read-file.png)
+
+## Step 7. CSSファイルを読み込んでみよう
+
+CSSファイルを作成して、読み込めるようにしてみましょう。`index.html`とは別に`styles.css`を作成し、このファイルを読み込めるようにします。
+
+
+1. `public`フォルダの中に、`styles.css`を作成します。
+
+```
+├─ .vscode/
+├─ public/
+│  ├─ index.html
+│  └─ styles.css
+└─ server.js
+```
+
+2. 各ファイルを、以下のように編集します。
+
+```
+/* public/styles.css */
+body {
+    background: skyblue;
+}
+```
+
+```diff
+<!-- public/index.html -->
+...
+<!-- headタグの中にはメタデータ等を記載する -->
+<head>
+  <meta charset="utf-8">
++   <link rel="stylesheet" href="styles.css">
+</head>
+
+<!-- bodyタグの中には実際に表示するものなどを書く -->
+...
+```
+
+```diff
+// server.js
+...
+// localhostにDenoのHTTPサーバを展開
+serve(async (request) => {
++     // パス名を取得する
++     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
++     const pathname = new URL(request.url).pathname;
++     console.log(`pathname: ${pathname}`);
++ 
++     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
++     if (pathname === "/styles.css") {
++         const cssText = await Deno.readTextFile("./public/styles.css");
++         return new Response(
++             cssText,
++             {
++                 headers: {
++                     // text/css形式のデータで、文字コードはUTF-8であること
++                     "Content-Type": "text/css; charset=utf-8"
++                 }
++             }
++         );
++     }
++ 
+    const htmlText = await Deno.readTextFile("./public/index.html");
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+...
+```
+
+3. ブラウザを再読み込みして、背景が青くなっていればOKです！
+
+![](./imgs/08_tutorial-read-css-file.png)
