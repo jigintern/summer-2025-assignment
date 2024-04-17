@@ -218,3 +218,64 @@ serve(request => {
 2. ブラウザを再読み込みして、`H1見出しです`と大きく表示されればOKです！
 
 ![](./imgs/06_tutorial-h1-tag.png)
+
+## Step 6. HTMLファイルを読み込んでみよう
+
+直前のセクションではHTMLを文字列としてスクリプト内に直に記述しましたが、別のファイルとして保存しておいたものを読み込むようにしてみましょう。
+
+また、ファイルの読み込みが完了するまではレスポンスを返さないように、処理に`async-await`を追加します。JavaScriptでは非同期処理が採用されているため、`async-await`を記載しなければファイルがうまく表示できない場合があります。
+
+> Topic: 「JavaScript 非同期処理」「JavaScript async await」などで調べてみましょう。
+
+1. `public`フォルダを作成し、中に`index.html`を作成します。フォルダ構成は以下のようになります。
+
+```
+├─ .vscode/
+├─ public/
+│  └─ index.html
+└─ server.js
+```
+
+2. `index.html`ファイルに以下の内容を記述します。
+
+```diff
+<!DOCTYPE html>
+<html>
+
+<!-- headタグの中にはメタデータ等を記載する -->
+<head>
+  <meta charset="utf-8">
+</head>
+
+<!-- bodyタグの中には実際に表示するものなどを書く -->
+<body>
+  <h1>H1見出しですよ</h1>
+</body>
+
+</html>
+```
+
+3. `server.js`ファイルを以下の内容で編集します。
+
+```diff
+// deno.landに公開されているモジュールをimport
+// denoではURLを直に記載してimportできます
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+
+// localhostにDenoのHTTPサーバを展開
+- serve(request => {
++ serve(async (request) => {
++     const htmlText = await Deno.readTextFile("./public/index.html");
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+-         "<h1>H1見出しです</h1>",
++         htmlText,
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+...
+```
+
+4. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
+
+![](./imgs/07_tutorial-read-file.png)
