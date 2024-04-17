@@ -65,3 +65,35 @@ deno server.js
 
 # Hello World!
 ```
+
+## Step 2. Visual Studio Codeのインストール・セットアップ
+
+### Visual Studio Codeとは
+
+Microsoftが提供しているソースコードエディタです。VS Codeとも呼ばれます。  
+開発に必要な機能の多くを踏襲しており、プラグインの開発も企業・個人問わず行われているので、特に拘りが無ければインストールをおすすめします。
+
+既にお気に入りのエディタがある場合は、インストールせずに進めていただいても構いません。
+
+### Visual Studio Codeのインストール
+
+公式サイトの説明に従い、Visual Studio Codeをインストールしてみましょう。
+
+https://code.visualstudio.com/
+
+ご自身のOSに合わせたものをダウンロードして、インストールしましょう。
+
+### Denoの拡張機能をインストール
+
+VS CodeにDenoの拡張機能をインストールしましょう。画面左側の「Extensions」アイコンから拡張機能の画面を開き、「Deno」で検索して、インストールしてください。
+
+![](./imgs/01_vscode-deno-install.png)
+
+### Denoの拡張機能をセットアップ
+
+`server.js`を作成したフォルダで、Denoの拡張機能の設定を行いましょう。「Control+Shift+P」でコマンドパレットを開き、「Deno: Initialize Workspace Configuration」を実行します。  
+`.vscode/settings.json`が作成され、Deno関連の補完が効くようになったらOKです。
+
+![](./imgs/02_vscode-deno-setup.png)
+
+![](./imgs/03_vscode-deno-setup-check.png)
