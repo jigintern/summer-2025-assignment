@@ -749,3 +749,48 @@ GitHubアカウントでログインしてリポジトリを作成し、成果�
 3. 以下の例では、`README.md`も一緒にプッシュしてみました。GitHubでは、`README.md`に記述した内容が画面下部に表示されます。ここに環境構築手順やリポジトリの説明等を記載すると分かりやすいです
 
 ![](./imgs/12_github-pushed.png)
+
+## Step 12. Deno Deployにデプロイしてみよう
+
+> 注意
+> GitHubアカウントの作成後、一週間程はDeno Deployの登録ができません。登録できない場合は、Step 12はスキップしてStep 13を先に終わらせてください
+
+### Deno Deployのアカウント登録をしよう
+
+Deno Deployでアカウント登録しましょう。Deno DeployのアカウントはGitHubアカウントと連携する形で作成できるので、先に作成したGitHubアカウントを使用してください。
+
+https://deno.com/deploy
+
+![](./imgs/13_deno-home.png)
+![](./imgs/14_deno-github.png)
+
+### Deno Deployのプロジェクトを作成しよう
+
+早速、Deno Deployのプロジェクトを作ってみましょう。
+
+GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成します。
+
+1. 「New Project」をクリックして、新規プロジェクトの作成画面を開きましょう
+
+![](./imgs/15_deno-deploy-home.png)
+
+2. 「Select User or Organization」から「Add Github Account」を選択します
+
+![](./imgs/16_deno-deploy-select-user.png)
+
+3. Deno Deployから全てのリポジトリへのアクセスを許可する場合は「All repositories」、一部のリポジトリにのみ絞りたい場合は「Only select repositories」を選択して、作成したWebアプリのリポジトリを指定しましょう
+
+![](./imgs/17_deno-deploy-github-install.png)
+
+4. 以下のようにアカウント設定、リポジトリを指定し、「Entrypoint」には`server.js`を指定して、「Deploy Project」をクリックします
+
+![](./imgs/18_deno-create-new-project-1.png)
+![](./imgs/19_deno-create-new-project-2.png)
+
+> Topic: Entrypointに指定したDenoファイルが、サーバ起動時に自動で実行されます
+
+5. しばらくするとデプロイが完了します。以下の画像の二枚目の画面になったら、完了です。表示されているリンクをクリックしてWebサイトを開いてみましょう！
+
+![](./imgs/20_deno-deploying.png)
+![](./imgs/21_deno-deploy-success.png)
+![](./imgs/22_deno-deploy-web-site.png)
