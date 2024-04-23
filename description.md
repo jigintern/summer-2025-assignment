@@ -146,20 +146,20 @@ HTTPサーバー上にアクセス数をカウントする変数を追加して�
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-// server.js
-
-// denoではURLを直に記載してimportできます
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-
+  // server.js
+  
+  // denoではURLを直に記載してimportできます
+  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+  
 + // アクセス数を保持する変数をグローバル領域に定義
 + let count = 0;
 + 
-// localhostにDenoのHTTPサーバを展開
-serve(request => {
+  // localhostにDenoのHTTPサーバを展開
+  serve(request => {
 -     return new Response("Hello Deno!");
 +     count++;
 +     return new Response(`Count: ${count}`);
-});
+  });
 ```
 
 2. `--allow-net`に加えて、`--watch`オプションを追加して`server.js`を起動してください。このオプションを指定すると、Denoがファイルの変更を自動でサーバーに反映してくれます。
@@ -192,14 +192,14 @@ deno run --allow-net --watch server.js
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-// denoではURLを直に記載してimportできます
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+  // denoではURLを直に記載してimportできます
+  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
 - // アクセス数を保持する変数をグローバル領域に定義
 - let count = 0;
 - 
-// localhostにDenoのHTTPサーバを展開
-serve(request => {
+  // localhostにDenoのHTTPサーバを展開
+  serve(request => {
 -     count++;
 -     return new Response(`Count: ${count}`);
 +     return new Response(
@@ -214,7 +214,7 @@ serve(request => {
 +             }
 +         }
 +     );
-});
+  });
 ```
 
 2. ブラウザを再読み込みして、`H1見出しです`と大きく表示されればOKです！
@@ -242,7 +242,7 @@ serve(request => {
 
 2. `index.html`ファイルに以下の内容を記述します。
 
-```diff
+```
 <!DOCTYPE html>
 <html>
 
@@ -262,22 +262,22 @@ serve(request => {
 3. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-// deno.landに公開されているモジュールをimport
-// denoではURLを直に記載してimportできます
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-
-// localhostにDenoのHTTPサーバを展開
+  // deno.landに公開されているモジュールをimport
+  // denoではURLを直に記載してimportできます
+  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+  
+  // localhostにDenoのHTTPサーバを展開
 - serve(request => {
 + serve(async (request) => {
 +     const htmlText = await Deno.readTextFile("./public/index.html");
-    return new Response(
-        // Responseの第一引数にレスポンスのbodyを設置
+      return new Response(
+          // Responseの第一引数にレスポンスのbodyを設置
 -         "<h1>H1見出しです</h1>",
 +         htmlText,
-        // Responseの第二引数にヘッダ情報等の付加情報を設置
-        {
-            // レスポンスにヘッダ情報を付加
-...
+          // Responseの第二引数にヘッダ情報等の付加情報を設置
+          {
+              // レスポンスにヘッダ情報を付加
+  ...
 ```
 
 4. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
@@ -308,23 +308,23 @@ body {
 ```
 
 ```diff
-<!-- public/index.html -->
-...
-<!-- headタグの中にはメタデータ等を記載する -->
-<head>
-  <meta charset="utf-8">
+  <!-- public/index.html -->
+  ...
+  <!-- headタグの中にはメタデータ等を記載する -->
+  <head>
+    <meta charset="utf-8">
 +   <link rel="stylesheet" href="styles.css">
-</head>
+  </head>
 
-<!-- bodyタグの中には実際に表示するものなどを書く -->
-...
+  <!-- bodyタグの中には実際に表示するものなどを書く -->
+  ...
 ```
 
 ```diff
-// server.js
-...
-// localhostにDenoのHTTPサーバを展開
-serve(async (request) => {
+  // server.js
+  ...
+  // localhostにDenoのHTTPサーバを展開
+  serve(async (request) => {
 +     // パス名を取得する
 +     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
 +     const pathname = new URL(request.url).pathname;
@@ -344,10 +344,10 @@ serve(async (request) => {
 +         );
 +     }
 + 
-    const htmlText = await Deno.readTextFile("./public/index.html");
-    return new Response(
-        // Responseの第一引数にレスポンスのbodyを設置
-...
+      const htmlText = await Deno.readTextFile("./public/index.html");
+      return new Response(
+          // Responseの第一引数にレスポンスのbodyを設置
+  ...
 ```
 
 3. ブラウザを再読み込みして、背景が青くなっていればOKです！
@@ -362,18 +362,18 @@ serve(async (request) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-// deno.landに公開されているモジュールをimport
-// denoではURLを直に記載してimportできます
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+  // deno.landに公開されているモジュールをimport
+  // denoではURLを直に記載してimportできます
+  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 + import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
 
-// localhostにDenoのHTTPサーバを展開
-serve(async (request) => {
-    // パス名を取得する
-    // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-    const pathname = new URL(request.url).pathname;
-    console.log(`pathname: ${pathname}`);
-
+  // localhostにDenoのHTTPサーバを展開
+  serve(async (request) => {
+      // パス名を取得する
+      // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+      const pathname = new URL(request.url).pathname;
+      console.log(`pathname: ${pathname}`);
+  
 -     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
 -     if (pathname === "/styles.css") {
 -         const cssText = await Deno.readTextFile("./public/styles.css");
@@ -413,8 +413,8 @@ serve(async (request) => {
 +             enableCors: true,
 +         }
 +     );
-
-});
+  
+  });
 ```
 
 2. ブラウザを再読み込みして、先程と同じ内容が表示されればOKです！
@@ -428,17 +428,17 @@ serve(async (request) => {
 1. `public/index.html`ファイルを以下の内容で編集します。
 
 ```diff
-<!-- bodyタグの中には実際に表示するものなどを書く -->
-<body>
-  <h1>H1見出しですよ</h1>
+  <!-- bodyタグの中には実際に表示するものなどを書く -->
+  <body>
+    <h1>H1見出しですよ</h1>
 + 
 +   <!-- JavaScriptを実行 -->
 +   <script>
 +     alert("Hello JavaScript!");
 +   </script>
-</body>
-
-</html>
+  </body>
+  
+  </html>
 ```
 
 2. ブラウザを再読み込みして、アラートが表示されればOKです！
@@ -465,29 +465,29 @@ serve(async (request) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-...
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
-
+  ...
+  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+  import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
+  
 + // 直前の単語を保持しておく
 + let previousWord = "しりとり";
 + 
-// localhostにDenoのHTTPサーバを展開
-serve(async (request) => {
-    // パス名を取得する
-    // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-    const pathname = new URL(request.url).pathname;
-    console.log(`pathname: ${pathname}`);
-
+  // localhostにDenoのHTTPサーバを展開
+  serve(async (request) => {
+      // パス名を取得する
+      // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+      const pathname = new URL(request.url).pathname;
+      console.log(`pathname: ${pathname}`);
+  
 +     // GET /shiritori: 直前の単語を返す
 +     if (request.method === "GET" && pathname === "/shiritori") {
 +         return new Response(previousWord);
 +     }
 + 
-    // ./public以下のファイルを公開
-    return serveDir(
-        request,
-...	
+      // ./public以下のファイルを公開
+      return serveDir(
+          request,
+  ...	
 ```
 
 2. ブラウザで`https://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
@@ -501,11 +501,11 @@ serve(async (request) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-    // GET /shiritori: 直前の単語を返す
-    if (request.method === "GET" && pathname === "/shiritori") {
-        return new Response(previousWord);
-    }
-
+      // GET /shiritori: 直前の単語を返す
+      if (request.method === "GET" && pathname === "/shiritori") {
+          return new Response(previousWord);
+      }
+  
 +     // POST /shiritori: 次の単語を入力する
 +     if (request.method === "POST" && pathname === "/shiritori") {
 +         // リクエストのペイロードを取得
@@ -523,9 +523,9 @@ serve(async (request) => {
 +         return new Response(previousWord);
 +     }
 + 
-    // ./public以下のファイルを公開
-    return serveDir(
-        request,
+      // ./public以下のファイルを公開
+      return serveDir(
+          request,
 ```
 
 2. `POST`のリクエストの送信は専用のツールやOSによって異なるコマンドが必要なので、動作確認はスキップして、次のセクションに進みましょう。もし動作確認の方法が分かるようであれば、動作確認してみてください。
@@ -541,16 +541,16 @@ serve(async (request) => {
 1. `public/index.html`ファイルを以下の内容で編集します。`fetch`を利用して`GET /shiritori`にリクエストを送信し、受信したデータを`p`タグに挿入します。
 
 ```diff
-...
-<!-- bodyタグの中には実際に表示するものなどを書く -->
-<body>
+  ...
+  <!-- bodyタグの中には実際に表示するものなどを書く -->
+  <body>
 -   <h1>H1見出しですよ</h1>
 +   <h1>しりとり</h1>
 +   <!-- 現在の単語を表示する場所 -->
 +   <p id="previousWord"></p>
-
-  <!-- JavaScriptを実行 -->
-  <script>
+  
+    <!-- JavaScriptを実行 -->
+    <script>
 -     alert("Hello JavaScript!");
 +     window.onload = async (event) => {
 +       // GET /shiritoriを実行
@@ -562,8 +562,8 @@ serve(async (request) => {
 +       // 取得したタグの中身を書き換える
 +       paragraph.innerHTML = `前の単語: ${previousWord}`;
 +     }
-  </script>
-</body>
+    </script>
+  </body>
 ...
 ```
 
@@ -578,9 +578,9 @@ serve(async (request) => {
 1. `public/index.html`ファイルを以下の内容で編集します。`GET`同様、`fetch`を使用して`POST /shiritori`にリクエストを送信します。
 
 ```diff
-  <!-- JavaScriptを実行 -->
-  <script>
-    window.onload = async (event) => {
+    <!-- JavaScriptを実行 -->
+    <script>
+      window.onload = async (event) => {
 +       // 試しでPOST /shiritoriを実行してみる
 +       // りんごと入力……
 +       await fetch(
@@ -592,9 +592,9 @@ serve(async (request) => {
 +         }
 +       );
 + 
-      // GET /shiritoriを実行
-      const response = await fetch("/shiritori", { method: "GET" });
-      // responseの中からレスポンスのテキストデータを取得
+        // GET /shiritoriを実行
+        const response = await fetch("/shiritori", { method: "GET" });
+        // responseの中からレスポンスのテキストデータを取得
 ```
 
 2. ブラウザを再読み込みして、「りんご」と表示されればOKです！
@@ -608,16 +608,16 @@ serve(async (request) => {
 1. `public/index.html`ファイルを以下の内容で編集します。送信ボタンが押下された時に`input`タグの中身を取得して、`POST /shiritori`に送信します。
 
 ```diff
- <h1>しりとり</h1>
-  <!-- 現在の単語を表示する場所 -->
-  <p id="previousWord"></p>
+   <h1>しりとり</h1>
+    <!-- 現在の単語を表示する場所 -->
+    <p id="previousWord"></p>
 +   <!-- 次の文字を入力するフォーム -->
 +   <input id="nextWordInput" type="text" />
 +   <button id="nextWordSendButton">送信</button>
-
-  <!-- JavaScriptを実行 -->
-  <script>
-    window.onload = async (event) => {
+  
+    <!-- JavaScriptを実行 -->
+    <script>
+      window.onload = async (event) => {
 -       // 試しでPOST /shiritoriを実行してみる
 -       // りんごと入力……
 -       await fetch(
@@ -628,16 +628,16 @@ serve(async (request) => {
 -           body: JSON.stringify({ nextWord: "りんご" })
 -         }
 -       );
-      // GET /shiritoriを実行
-      const response = await fetch("/shiritori", { method: "GET" });
-      // responseの中からレスポンスのテキストデータを取得
-      const previousWord = await response.text();
-      // id: previousWordのタグを取得
-      const paragraph = document.querySelector("#previousWord");
-      // 取得したタグの中身を書き換える
-      paragraph.innerHTML = `前の単語: ${previousWord}`;
-    }
-
+        // GET /shiritoriを実行
+        const response = await fetch("/shiritori", { method: "GET" });
+        // responseの中からレスポンスのテキストデータを取得
+        const previousWord = await response.text();
+        // id: previousWordのタグを取得
+        const paragraph = document.querySelector("#previousWord");
+        // 取得したタグの中身を書き換える
+        paragraph.innerHTML = `前の単語: ${previousWord}`;
+      }
+  
 +     // 送信ボタンの押下時に実行
 +     document.querySelector("#nextWordSendButton").onclick = async(event) => {
 +       // inputタグを取得
@@ -664,8 +664,8 @@ serve(async (request) => {
 +       // inputタグの中身を消去する
 +       nextWordInput.value = "";
 +     }
-  </script>
-</body>
+    </script>
+  </body>
 ```
 
 2. ブラウザを読み込み直して、入力フォームが表示されていればOKです！
@@ -679,17 +679,17 @@ serve(async (request) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-    // POST /shiritori: 次の単語を入力する
-    if (request.method === "POST" && pathname === "/shiritori") {
-        // リクエストのペイロードを取得
-        const requestJson = await request.json();
-        // JSONの中からnextWordを取得
-        const nextWord = requestJson["nextWord"];
-        // previousWordの末尾とnextWordの先頭が同一か確認
-        if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
-            // 同一であれば、previousWordを更新
-            previousWord = nextWord;
-        }
+      // POST /shiritori: 次の単語を入力する
+      if (request.method === "POST" && pathname === "/shiritori") {
+          // リクエストのペイロードを取得
+          const requestJson = await request.json();
+          // JSONの中からnextWordを取得
+          const nextWord = requestJson["nextWord"];
+          // previousWordの末尾とnextWordの先頭が同一か確認
+          if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
+              // 同一であれば、previousWordを更新
+              previousWord = nextWord;
+          }
 +         // 同一でない単語の入力時に、エラーを返す
 +         else {
 +             return new Response("前の単語に続いていません", { status: 400 });
@@ -699,22 +699,22 @@ serve(async (request) => {
 2. `public/index.html`ファイルを以下の内容で編集します。
 
 ```diff
-    // 送信ボタンの押下時に実行
-    document.querySelector("#nextWordSendButton").onclick = async(event) => {
-      // inputタグを取得
-      const nextWordInput = document.querySelector("#nextWordInput");
-      // inputの中身を取得
-      const nextWordInputText = nextWordInput.value;
-      // POST /shiritoriを実行
-      // 次の単語をresponseに格納
-      const response = await fetch(
-        "/shiritori",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nextWord: nextWordInputText })
-        }
-      );
+      // 送信ボタンの押下時に実行
+      document.querySelector("#nextWordSendButton").onclick = async(event) => {
+        // inputタグを取得
+        const nextWordInput = document.querySelector("#nextWordInput");
+        // inputの中身を取得
+        const nextWordInputText = nextWordInput.value;
+        // POST /shiritoriを実行
+        // 次の単語をresponseに格納
+        const response = await fetch(
+          "/shiritori",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nextWord: nextWordInputText })
+          }
+        );
 + 
 +       // status: 200以外が返ってきた場合にエラーを表示
 +       if (response.status !== 200) {
@@ -722,8 +722,8 @@ serve(async (request) => {
 +         alert(message);
 +         return;
 +       }
-
-      const previousWord = await response.text();
+  
+        const previousWord = await response.text();
 ```
 
 3. ブラウザを再読み込みして、不正な単語を入力してみましょう。アラートが表示されればOKです！
