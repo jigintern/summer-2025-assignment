@@ -713,7 +713,7 @@ body {
 
 ## Step 10. しりとりの実装: エラーを実装してみよう
 
-「りんご」の次に「らっぱ」などの続かない単語が入力された時に、エラーを表示できるようにしてみましょう。Webとサーバーを以下のように書き換えてください。
+「りんご」の次に「らっぱ」などの続かない単語が入力された時に、エラーを表示できるようにしてみましょう。ここでは、`application/json`形式のデータを返すようにしてみます。Webとサーバーを以下のように書き換えてください。
 
 1. `server.js`ファイルを以下の内容で編集します。
 
@@ -731,7 +731,16 @@ body {
           }
 +         // 同一でない単語の入力時に、エラーを返す
 +         else {
-+             return new Response("前の単語に続いていません", { status: 400 });
++             return new Response(
++                 JSON.stringify({
++                     "errorMessage": "前の単語に続いていません",
++                     "errorCode": "10001"
++                 }),
++                 {
++                     status: 400,
++                     headers: { "Content-Type": "application/json; charset=utf-8" },
++                 }
++             );
 +         }
 ```
 
@@ -757,9 +766,9 @@ body {
 + 
 +       // status: 200以外が返ってきた場合にエラーを表示
 +       if (response.status !== 200) {
-+         const message = await response.text();
-+         alert(message);
-+         return;
++         const errorJson = await response.text();
++         const errorObj = JSON.parse(errorJson);
++         alert(errorObj["errorMessage"]);
 +       }
   
         const previousWord = await response.text();
@@ -833,5 +842,3 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
 ![](./imgs/20_deno-deploying.png)
 ![](./imgs/21_deno-deploy-success.png)
 ![](./imgs/22_deno-deploy-web-site.png)
-
-## Step 13. 

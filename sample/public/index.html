@@ -48,8 +48,9 @@
 
       // status: 200以外が返ってきた場合にエラーを表示
       if (response.status !== 200) {
-        const message = await response.text();
-        alert(message);
+        const errorJson = await response.text();
+        const errorObj = JSON.parse(errorJson);
+        alert(errorObj["errorMessage"]);
         return;
       }
 

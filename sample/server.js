@@ -32,7 +32,16 @@ serve(async (request) => {
         }
         // 同一でない単語の入力時に、エラーを返す
         else {
-            return new Response("前の単語に続いていません", { status: 400 });
+            return new Response(
+                JSON.stringify({
+                    "errorMessage": "前の単語に続いていません",
+                    "errorCode": "10001"
+                }),
+                {
+                    status: 400,
+                    headers: { "Content-Type": "application/json; charset=utf-8" },
+                }
+            );
         }
 
         // 現在の単語を返す
