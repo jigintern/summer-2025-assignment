@@ -1,3 +1,45 @@
+<style>
+  html {
+    display: flex;
+    justify-content: center;
+  }
+  body {
+    width: 100vw;
+    max-width: 700px;
+    background-color: #EEE;
+    color: #4d4d4d;
+  }
+  img {
+    width: 80%;
+    margin-left: 5%;
+    outline: solid #4d4d4d;
+  }
+  h2 {
+    counter-reset: section;
+
+    margin-top: 30px;
+    padding-left: 10px;
+    border-left: 0.1em solid #4d4d4d;
+  }
+  h3 {
+    font-weight: bold;
+  }
+  h3::before {
+    counter-increment: section;
+    content: "（" counter(section) "） ";
+  }
+  h4 {
+    font-size: 1em;
+    padding-left: 0.6em;
+  }
+  h4::before {
+    content: "> ";
+  }
+  p {
+    padding-left: 0.6em;
+  }
+</style>
+
 # しりとりアプリを作ってみよう！
 
 ## はじめに
@@ -58,7 +100,7 @@
 > 注意！
 > GitHubのアカウントを複数持つことは利用規約で禁止されています。既にアカウントをお持ちの方は、そちらのアカウントをご利用ください
 
-https://github.com/
+[https://github.com/](https://github.com/)
 
 ## Step 1. Denoのインストール
 
@@ -76,7 +118,7 @@ DenoはNode.jsの作者であるライアン・ダール氏によって実装さ
 
 公式サイトの説明に従い、Denoをインストールしてみましょう。
 
-https://docs.deno.com/runtime/manual
+[https://docs.deno.com/runtime/manual](https://docs.deno.com/runtime/manual)
 
 「Install Deno」の項目に記載されたコマンドをご自身のOSに合わせて実行するだけで、インストールが可能です。  
 インストールが完了したら、以下のコマンドを実行してみましょう。バージョン情報が表示されればOKです！
@@ -808,7 +850,7 @@ GitHubアカウントでログインしてリポジトリを作成し、成果�
 
 Deno Deployでアカウント登録しましょう。Deno DeployのアカウントはGitHubアカウントと連携する形で作成できるので、先に作成したGitHubアカウントを使用してください。
 
-https://deno.com/deploy
+[https://deno.com/deploy](https://deno.com/deploy)
 
 ![](./imgs/13_deno-home.png)
 ![](./imgs/14_deno-github.png)
@@ -853,7 +895,7 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
 
 また、例として以下のWebサイトに必須仕様を満たすWebアプリケーションをデプロイしました。実装の参考にしてみてください。
 
-https://niba2828-deno-shirit-12.deno.dev/
+[https://niba2828-deno-shirit-12.deno.dev/](https://niba2828-deno-shirit-12.deno.dev/)
 
 ### "末尾が「ん」で終わる単語が入力されたら、ゲームを終了する"
 
