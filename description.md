@@ -187,7 +187,7 @@ VS CodeにDenoの拡張機能をインストールしましょう。画面左側
 
 DenoでHTTPサーバーを立ち上げてみましょう。
 
-HTTPサーバーとは、HTTP (HyperText Transfer Protocol) でブラウザと通信するサーバーです。HTTPサーバー上に処理やデザイン等を記述することで、様々なWebアプリを動作させられます。  
+HTTPサーバーとは、HTTP (HyperText Transfer Protocol) に則って通信するサーバーです。HTTPサーバー上に処理やデザイン等を記述することで、様々なWebアプリを動作させられます。  
 Denoが提供している`serve`関数を利用することで、簡単にHTTPサーバーを立ち上げることができます。
 
 以下に実装と作動の手順を示します。
