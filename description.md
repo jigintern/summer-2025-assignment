@@ -106,7 +106,7 @@
 
 ### Deno (ディーノ) とは
 
-Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーーの処理を実装できます。
+Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーの処理を実装できます。
 ここでは、入門者向けとしてJavaScriptを使用します。TypeScriptの使用方法が分かる方は、そちらを使用していただいても問題ありません。
 
 Webフロントエンドで多く用いられるJavaScriptを使用するため、フロントエンドとバックエンドを同一言語で実装できます。  
@@ -201,7 +201,7 @@ Denoが提供している`serve`関数を利用することで、簡単にHTTP�
 // denoではURLを直に記載してimportできます
 import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
-// localhostにDenoのHTTPサーバを展開
+// localhostにDenoのHTTPサーバーを展開
 serve(request => {
     return new Response("Hello Deno!");
 });
@@ -236,7 +236,7 @@ HTTPサーバー上にアクセス数をカウントする変数を追加して�
 + // アクセス数を保持する変数をグローバル領域に定義
 + let count = 0;
 + 
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(request => {
 -     return new Response("Hello Deno!");
 +     count++;
@@ -280,7 +280,7 @@ deno run --allow-net --watch server.js
 - // アクセス数を保持する変数をグローバル領域に定義
 - let count = 0;
 - 
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(request => {
 -     count++;
 -     return new Response(`Count: ${count}`);
@@ -303,7 +303,7 @@ deno run --allow-net --watch server.js
 
 ![](./imgs/06_tutorial-h1-tag.png)
 
-## Step 6. ファイルサーバを実装してみよう
+## Step 6. ファイルサーバーを実装してみよう
 
 ### HTMLファイルを読み込んでみよう
 
@@ -348,7 +348,7 @@ deno run --allow-net --watch server.js
   // denoではURLを直に記載してimportできます
   import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
   
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
 - serve(request => {
 + serve(async (request) => {
 +     const htmlText = await Deno.readTextFile("./public/index.html");
@@ -405,7 +405,7 @@ body {
 ```diff
   // server.js
   ...
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(async (request) => {
 +     // パス名を取得する
 +     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
@@ -449,7 +449,7 @@ body {
   import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 + import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
 
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(async (request) => {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
@@ -554,7 +554,7 @@ body {
 + // 直前の単語を保持しておく
 + let previousWord = "しりとり";
 + 
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(async (request) => {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
@@ -878,7 +878,7 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
 ![](./imgs/18_deno-create-new-project-1.png)
 ![](./imgs/19_deno-create-new-project-2.png)
 
-> Topic: Entrypointに指定したDenoファイルが、サーバ起動時に自動で実行されます
+> Topic: Entrypointに指定したDenoファイルが、サーバー起動時に自動で実行されます
 
 5. しばらくするとデプロイが完了します。以下の画像の二枚目の画面になったら、完了です。表示されているリンクをクリックしてWebサイトを開いてみましょう！
 

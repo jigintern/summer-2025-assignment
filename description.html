@@ -458,7 +458,7 @@ GitHubのアカウントを複数持つことは利用規約で禁止されて�
 <p><a href="https://github.com/">https://github.com/</a></p>
 <h2 id="step-1-deno%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">Step 1. Denoのインストール</h2>
 <h3 id="deno-%E3%83%87%E3%82%A3%E3%83%BC%E3%83%8E-%E3%81%A8%E3%81%AF">Deno (ディーノ) とは</h3>
-<p>Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーーの処理を実装できます。
+<p>Denoは、JavaScript/TypeScriptの実行環境(ランタイム)です。これらの言語でサーバーの処理を実装できます。
 ここでは、入門者向けとしてJavaScriptを使用します。TypeScriptの使用方法が分かる方は、そちらを使用していただいても問題ありません。</p>
 <p>Webフロントエンドで多く用いられるJavaScriptを使用するため、フロントエンドとバックエンドを同一言語で実装できます。<br>
 DenoはNode.jsの作者であるライアン・ダール氏によって実装されたランタイムで、Node.jsをブラッシュアップしたものとなっています。</p>
@@ -507,7 +507,7 @@ deno --version
 <p><img src="./imgs/03_vscode-deno-setup-check.png" alt=""></p>
 <h2 id="step-3-deno%E3%81%A7http%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%82%92%E7%AB%8B%E3%81%A6%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">Step 3. DenoでHTTPサーバーを立ててみよう</h2>
 <p>DenoでHTTPサーバーを立ち上げてみましょう。</p>
-<p>HTTPサーバーとは、HTTP (HyperText Transfer Protocol) でブラウザと通信するサーバーです。HTTPサーバー上に処理やデザイン等を記述することで、様々なWebアプリを動作させられます。<br>
+<p>HTTPサーバーとは、HTTP (HyperText Transfer Protocol) に則って通信するサーバーです。HTTPサーバー上に処理やデザイン等を記述することで、様々なWebアプリを動作させられます。<br>
 Denoが提供している<code>serve</code>関数を利用することで、簡単にHTTPサーバーを立ち上げることができます。</p>
 <p>以下に実装と作動の手順を示します。</p>
 <ol>
@@ -519,7 +519,7 @@ Denoが提供している<code>serve</code>関数を利用することで、簡�
 // denoではURLを直に記載してimportできます
 import { serve } from &quot;https://deno.land/std@0.194.0/http/server.ts&quot;;
 
-// localhostにDenoのHTTPサーバを展開
+// localhostにDenoのHTTPサーバーを展開
 serve(request =&gt; {
     return new Response(&quot;Hello Deno!&quot;);
 });
@@ -554,7 +554,7 @@ serve(request =&gt; {
 <span class="hljs-addition">+ // アクセス数を保持する変数をグローバル領域に定義</span>
 <span class="hljs-addition">+ let count = 0;</span>
 <span class="hljs-addition">+ </span>
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(request =&gt; {
 <span class="hljs-deletion">-     return new Response("Hello Deno!");</span>
 <span class="hljs-addition">+     count++;</span>
@@ -621,7 +621,7 @@ serve(request =&gt; {
 <span class="hljs-deletion">- // アクセス数を保持する変数をグローバル領域に定義</span>
 <span class="hljs-deletion">- let count = 0;</span>
 <span class="hljs-deletion">- </span>
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(request =&gt; {
 <span class="hljs-deletion">-     count++;</span>
 <span class="hljs-deletion">-     return new Response(`Count: ${count}`);</span>
@@ -643,7 +643,7 @@ serve(request =&gt; {
 <li>ブラウザを再読み込みして、<code>H1見出しです</code>と大きく表示されればOKです！</li>
 </ol>
 <p><img src="./imgs/06_tutorial-h1-tag.png" alt=""></p>
-<h2 id="step-6-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%B5%E3%83%BC%E3%83%90%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">Step 6. ファイルサーバを実装してみよう</h2>
+<h2 id="step-6-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">Step 6. ファイルサーバーを実装してみよう</h2>
 <h3 id="html%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%93%E3%81%A7%E3%81%BF%E3%82%88%E3%81%86">HTMLファイルを読み込んでみよう</h3>
 <p>直前のセクションではHTMLを文字列としてスクリプト内に直に記述しましたが、別のファイルとして保存しておいたものを読み込むようにしてみましょう。</p>
 <p>また、ファイルの読み込みが完了するまではレスポンスを返さないように、処理に<code>async-await</code>を追加します。JavaScriptでは非同期処理が採用されているため、<code>async-await</code>を記載しなければファイルがうまく表示できない場合があります。</p>
@@ -683,7 +683,7 @@ serve(request =&gt; {
   // denoではURLを直に記載してimportできます
   import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
   
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
 <span class="hljs-deletion">- serve(request =&gt; {</span>
 <span class="hljs-addition">+ serve(async (request) =&gt; {</span>
 <span class="hljs-addition">+     const htmlText = await Deno.readTextFile("./public/index.html");</span>
@@ -732,7 +732,7 @@ body {
 </div></code></pre>
 <pre class="hljs"><code><div>  // server.js
   ...
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(async (request) =&gt; {
 <span class="hljs-addition">+     // パス名を取得する</span>
 <span class="hljs-addition">+     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる</span>
@@ -773,7 +773,7 @@ body {
   import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 <span class="hljs-addition">+ import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";</span>
 
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(async (request) =&gt; {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
@@ -869,7 +869,7 @@ body {
 <span class="hljs-addition">+ // 直前の単語を保持しておく</span>
 <span class="hljs-addition">+ let previousWord = "しりとり";</span>
 <span class="hljs-addition">+ </span>
-  // localhostにDenoのHTTPサーバを展開
+  // localhostにDenoのHTTPサーバーを展開
   serve(async (request) =&gt; {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
@@ -1170,7 +1170,7 @@ GitHubアカウントの作成後、一週間程はDeno Deployの登録ができ
 <p><img src="./imgs/18_deno-create-new-project-1.png" alt="">
 <img src="./imgs/19_deno-create-new-project-2.png" alt=""></p>
 <blockquote>
-<p>Topic: Entrypointに指定したDenoファイルが、サーバ起動時に自動で実行されます</p>
+<p>Topic: Entrypointに指定したDenoファイルが、サーバー起動時に自動で実行されます</p>
 </blockquote>
 <ol start="5">
 <li>しばらくするとデプロイが完了します。以下の画像の二枚目の画面になったら、完了です。表示されているリンクをクリックしてWebサイトを開いてみましょう！</li>
