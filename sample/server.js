@@ -8,7 +8,7 @@ let previousWord = "しりとり";
 // localhostにDenoのHTTPサーバーを展開
 Deno.serve(async (request) => {
     // パス名を取得する
-    // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+    // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
     const pathname = new URL(request.url).pathname;
     console.log(`pathname: ${pathname}`);
 

@@ -721,11 +721,11 @@ body {
   // localhostにDenoのHTTPサーバーを展開
   Deno.serve(async (request) =&gt; {
 <span class="hljs-addition">+     // パス名を取得する</span>
-<span class="hljs-addition">+     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる</span>
+<span class="hljs-addition">+     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる</span>
 <span class="hljs-addition">+     const pathname = new URL(request.url).pathname;</span>
 <span class="hljs-addition">+     console.log(`pathname: ${pathname}`);</span>
 <span class="hljs-addition">+ </span>
-<span class="hljs-addition">+     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す</span>
+<span class="hljs-addition">+     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す</span>
 <span class="hljs-addition">+     if (pathname === "/styles.css") {</span>
 <span class="hljs-addition">+         const cssText = await Deno.readTextFile("./public/styles.css");</span>
 <span class="hljs-addition">+         return new Response(</span>
@@ -761,11 +761,11 @@ body {
   // localhostにDenoのHTTPサーバーを展開
   Deno.serve(async (request) =&gt; {
       // パス名を取得する
-      // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
       console.log(`pathname: ${pathname}`);
   
-<span class="hljs-deletion">-     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す</span>
+<span class="hljs-deletion">-     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す</span>
 <span class="hljs-deletion">-     if (pathname === "/styles.css") {</span>
 <span class="hljs-deletion">-         const cssText = await Deno.readTextFile("./public/styles.css");</span>
 <span class="hljs-deletion">-         return new Response(</span>
@@ -856,7 +856,7 @@ body {
   // localhostにDenoのHTTPサーバーを展開
   Deno.serve(async (request) =&gt; {
       // パス名を取得する
-      // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
       console.log(`pathname: ${pathname}`);
   
@@ -871,7 +871,7 @@ body {
   ...	
 </div></code></pre>
 <ol start="2">
-<li>ブラウザで<code>https://localhost:8000/shiritori</code>にアクセスして、「しりとり」と表示されればOKです！</li>
+<li>ブラウザで<code>http://localhost:8000/shiritori</code>にアクセスして、「しりとり」と表示されればOKです！</li>
 </ol>
 <h3 id="post-shiritori%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%82%88%E3%81%86"><code>POST /shiritori</code>を実装しよう</h3>
 <p>仕様2を満たすため、サーバーに保存されている単語を、受け取ったデータで更新できるようにしましょう。</p>
@@ -941,7 +941,7 @@ body {
 ...
 </div></code></pre>
 <ol start="2">
-<li>ブラウザを<code>https://localhost:8000</code>で再読み込みして、「しりとり」と表示されればOKです！</li>
+<li>ブラウザを<code>http://localhost:8000</code>で再読み込みして、「しりとり」と表示されればOKです！</li>
 </ol>
 <blockquote>
 <p>Topic: サーバー側の<code>previousWord</code>を書き換えて、反映されるか確認してみましょう。</p>

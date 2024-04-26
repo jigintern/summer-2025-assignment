@@ -394,11 +394,11 @@ body {
   // localhostにDenoのHTTPサーバーを展開
   Deno.serve(async (request) => {
 +     // パス名を取得する
-+     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
++     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
 +     const pathname = new URL(request.url).pathname;
 +     console.log(`pathname: ${pathname}`);
 + 
-+     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
++     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
 +     if (pathname === "/styles.css") {
 +         const cssText = await Deno.readTextFile("./public/styles.css");
 +         return new Response(
@@ -437,11 +437,11 @@ body {
   // localhostにDenoのHTTPサーバーを展開
   Deno.serve(async (request) => {
       // パス名を取得する
-      // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
       console.log(`pathname: ${pathname}`);
   
--     // https://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
+-     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
 -     if (pathname === "/styles.css") {
 -         const cssText = await Deno.readTextFile("./public/styles.css");
 -         return new Response(
@@ -541,7 +541,7 @@ body {
   // localhostにDenoのHTTPサーバーを展開
   Deno.serve(async (request) => {
       // パス名を取得する
-      // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
       console.log(`pathname: ${pathname}`);
   
@@ -556,7 +556,7 @@ body {
   ...	
 ```
 
-2. ブラウザで`https://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
+2. ブラウザで`http://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
 
 ### `POST /shiritori`を実装しよう
 
@@ -633,7 +633,7 @@ body {
 ...
 ```
 
-2. ブラウザを`https://localhost:8000`で再読み込みして、「しりとり」と表示されればOKです！
+2. ブラウザを`http://localhost:8000`で再読み込みして、「しりとり」と表示されればOKです！
 
 > Topic: サーバー側の`previousWord`を書き換えて、反映されるか確認してみましょう。
 
