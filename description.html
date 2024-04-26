@@ -447,13 +447,13 @@ code {
 特に環境に拘りの無い方は、以下にDenoを使用して途中まで実装した例を示しますので、Denoを使用して実装してみてください。</p>
 <h2 id="step-0-github%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90">Step 0. GitHubアカウントの作成</h2>
 <blockquote>
-<p>GitHubアカウント作成後、数日経過しなければ使用できない機能もあるため、早めに登録することをおすすめします</p>
+<p>GitHubアカウント作成後、数日経過しなければ使用できない機能もあるため、早めに登録することをおすすめします。</p>
 </blockquote>
 <p>作成したWebアプリケーションの提出等に必要なため、GitHubアカウントを作成しましょう。<br>
 以下のWebサイトからアカウント登録を行ってください。</p>
 <blockquote>
 <p>注意！
-GitHubのアカウントを複数持つことは利用規約で禁止されています。既にアカウントをお持ちの方は、そちらのアカウントをご利用ください</p>
+GitHubのアカウントを複数持つことは利用規約で禁止されています。既にアカウントをお持ちの方は、そちらのアカウントをご利用ください。</p>
 </blockquote>
 <p><a href="https://github.com/">https://github.com/</a></p>
 <h2 id="step-1-deno%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">Step 1. Denoのインストール</h2>
@@ -484,14 +484,14 @@ deno --version
 <pre class="hljs"><code><div>console.log(&quot;Hello World!&quot;);
 </div></code></pre>
 <p>保存が完了したら、Denoで実行してみましょう！</p>
-<pre class="hljs"><code><div>deno server.js
+<pre class="hljs"><code><div>deno run server.js
 
 <span class="hljs-comment"># Hello World!</span>
 </div></code></pre>
 <h2 id="step-2-visual-studio-code%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">Step 2. Visual Studio Codeのインストール・セットアップ</h2>
 <h3 id="visual-studio-code%E3%81%A8%E3%81%AF">Visual Studio Codeとは</h3>
 <p>Microsoftが提供しているソースコードエディタです。VS Codeとも呼ばれます。<br>
-開発に必要な機能の多くを踏襲しており、プラグインの開発も企業・個人問わず行われているので、特に拘りが無ければインストールをおすすめします。</p>
+開発に必要な機能の多くを搭載しており、プラグインの開発も企業・個人問わず行われているので、特に拘りが無ければインストールをおすすめします。</p>
 <p>既にお気に入りのエディタがある場合は、インストールせずに進めていただいても構いません。</p>
 <h3 id="visual-studio-code%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB">Visual Studio Codeのインストール</h3>
 <p>公式サイトの説明に従い、Visual Studio Codeをインストールしてみましょう。</p>
@@ -516,12 +516,8 @@ Denoが提供している<code>serve</code>関数を利用することで、簡�
 </ol>
 <pre class="hljs"><code><div>// server.js
 
-// deno.landに公開されているモジュールをimport
-// denoではURLを直に記載してimportできます
-import { serve } from &quot;https://deno.land/std@0.194.0/http/server.ts&quot;;
-
 // localhostにDenoのHTTPサーバーを展開
-serve(request =&gt; {
+Deno.serve(request =&gt; {
     return new Response(&quot;Hello Deno!&quot;);
 });
 </div></code></pre>
@@ -548,15 +544,11 @@ serve(request =&gt; {
 <li><code>server.js</code>ファイルを以下の内容で編集します。</li>
 </ol>
 <pre class="hljs"><code><div>  // server.js
-  
-  // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-  
 <span class="hljs-addition">+ // アクセス数を保持する変数をグローバル領域に定義</span>
 <span class="hljs-addition">+ let count = 0;</span>
 <span class="hljs-addition">+ </span>
   // localhostにDenoのHTTPサーバーを展開
-  serve(request =&gt; {
+  Deno.serve(request =&gt; {
 <span class="hljs-deletion">-     return new Response("Hello Deno!");</span>
 <span class="hljs-addition">+     count++;</span>
 <span class="hljs-addition">+     return new Response(`Count: ${count}`);</span>
@@ -572,7 +564,7 @@ serve(request =&gt; {
 <p>ブラウザで<code>http://localhost:8000</code>にアクセスしてみましょう。</p>
 </li>
 <li>
-<p>何回かアクセスして、ブラウザにアクセス回数が表示されればOKです！尚、ブラウザが自動で<code>/favicon.ico</code>を取得しようとするため、カウントが2ずつカウントアップすることがあります。</p>
+<p>何回かアクセスして、ブラウザにアクセス回数が表示されればOKです！尚、ブラウザが自動で<code>/favicon.ico</code>を取得しようとするため、カウントが2つずつカウントアップすることがあります。</p>
 </li>
 </ol>
 <p><img src="./imgs/05_tutorial-access-count.png" alt=""></p>
@@ -616,14 +608,11 @@ serve(request =&gt; {
 <ol>
 <li><code>server.js</code>ファイルを以下の内容で編集します。</li>
 </ol>
-<pre class="hljs"><code><div>  // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-
-<span class="hljs-deletion">- // アクセス数を保持する変数をグローバル領域に定義</span>
+<pre class="hljs"><code><div><span class="hljs-deletion">- // アクセス数を保持する変数をグローバル領域に定義</span>
 <span class="hljs-deletion">- let count = 0;</span>
 <span class="hljs-deletion">- </span>
   // localhostにDenoのHTTPサーバーを展開
-  serve(request =&gt; {
+  Deno.serve(request =&gt; {
 <span class="hljs-deletion">-     count++;</span>
 <span class="hljs-deletion">-     return new Response(`Count: ${count}`);</span>
 <span class="hljs-addition">+     return new Response(</span>
@@ -680,13 +669,9 @@ serve(request =&gt; {
 <ol start="3">
 <li><code>server.js</code>ファイルを以下の内容で編集します。</li>
 </ol>
-<pre class="hljs"><code><div>  // deno.landに公開されているモジュールをimport
-  // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-  
-  // localhostにDenoのHTTPサーバーを展開
-<span class="hljs-deletion">- serve(request =&gt; {</span>
-<span class="hljs-addition">+ serve(async (request) =&gt; {</span>
+<pre class="hljs"><code><div>  // localhostにDenoのHTTPサーバーを展開
+<span class="hljs-deletion">- Deno.serve(request =&gt; {</span>
+<span class="hljs-addition">+ Deno.serve(async (request) =&gt; {</span>
 <span class="hljs-addition">+     const htmlText = await Deno.readTextFile("./public/index.html");</span>
       return new Response(
           // Responseの第一引数にレスポンスのbodyを設置
@@ -734,7 +719,7 @@ body {
 <pre class="hljs"><code><div>  // server.js
   ...
   // localhostにDenoのHTTPサーバーを展開
-  serve(async (request) =&gt; {
+  Deno.serve(async (request) =&gt; {
 <span class="hljs-addition">+     // パス名を取得する</span>
 <span class="hljs-addition">+     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる</span>
 <span class="hljs-addition">+     const pathname = new URL(request.url).pathname;</span>
@@ -771,11 +756,10 @@ body {
 </ol>
 <pre class="hljs"><code><div>  // deno.landに公開されているモジュールをimport
   // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-<span class="hljs-addition">+ import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";</span>
+<span class="hljs-addition">+ import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";</span>
 
   // localhostにDenoのHTTPサーバーを展開
-  serve(async (request) =&gt; {
+  Deno.serve(async (request) =&gt; {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
@@ -852,9 +836,9 @@ body {
 <p>ここからは、実際に「しりとり」をするWebアプリを実装します。
 実装するアプリは、以下の仕様を満たしたものとします。</p>
 <ol>
-<li>直前の単語が表示できる</li>
-<li>次の単語を入力できる</li>
-<li>直前の単語の末尾と入力した単語の先頭が同一であれば、単語を更新。同一でなければ、エラーを表示する</li>
+<li>直前の単語が表示できる。</li>
+<li>次の単語を入力できる。</li>
+<li>直前の単語の末尾と入力した単語の先頭が同一であれば、単語を更新。同一でなければ、エラーを表示する。</li>
 </ol>
 <p>このセクションでは、サーバー側の処理を実装します。前セクションまでで実装した内容をベースにして実装を進めましょう。</p>
 <h3 id="get-shiritori%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%82%88%E3%81%86"><code>GET /shiritori</code>を実装しよう</h3>
@@ -864,14 +848,13 @@ body {
 <li><code>server.js</code>ファイルを以下の内容で編集します。</li>
 </ol>
 <pre class="hljs"><code><div>  ...
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-  import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
+  import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
   
 <span class="hljs-addition">+ // 直前の単語を保持しておく</span>
 <span class="hljs-addition">+ let previousWord = "しりとり";</span>
 <span class="hljs-addition">+ </span>
   // localhostにDenoのHTTPサーバーを展開
-  serve(async (request) =&gt; {
+  Deno.serve(async (request) =&gt; {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
@@ -961,7 +944,7 @@ body {
 <li>ブラウザを<code>https://localhost:8000</code>で再読み込みして、「しりとり」と表示されればOKです！</li>
 </ol>
 <blockquote>
-<p>Topic: サーバー側の<code>previousWord</code>を書き換えて、反映されるか確認してみましょう</p>
+<p>Topic: サーバー側の<code>previousWord</code>を書き換えて、反映されるか確認してみましょう。</p>
 </blockquote>
 <h3 id="%E8%B5%B7%E5%8B%95%E6%99%82%E3%81%ABpost-shiritori%E3%81%AB%E6%AC%A1%E3%81%AE%E5%8D%98%E8%AA%9E%E3%82%92%E9%80%81%E4%BF%A1%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">（起動時に）<code>POST /shiritori</code>に次の単語を送信してみよう</h3>
 <p><code>POST /shiritori</code>にアクセスして、次の単語を入力してみましょう。ここでは、ブラウザの起動時に勝手に「りんご」と送信されるようにしてみます。</p>
@@ -990,7 +973,7 @@ body {
 <li>ブラウザを再読み込みして、「りんご」と表示されればOKです！</li>
 </ol>
 <blockquote>
-<p>Topic: サーバー側の<code>previousWord</code>やWeb側の<code>nextWord</code>を書き換えて、反映されるか確認してみましょう。しりとりとして単語が繋がっていなければ、更新されないようになっていることも確認しましょう</p>
+<p>Topic: サーバー側の<code>previousWord</code>やWeb側の<code>nextWord</code>を書き換えて、反映されるか確認してみましょう。しりとりとして単語が繋がっていなければ、更新されないようになっていることも確認しましょう。</p>
 </blockquote>
 <h3 id="post-shiritori%E3%81%AB%E4%BB%BB%E6%84%8F%E3%81%AE%E5%8D%98%E8%AA%9E%E3%82%92%E9%80%81%E4%BF%A1%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86"><code>POST /shiritori</code>に任意の単語を送信してみよう</h3>
 <p>起動時にサーバーの値を書き換えることができました。次に、任意の単語を送信できるようにしてみましょう。</p>
@@ -1060,7 +1043,7 @@ body {
 <li>ブラウザを読み込み直して、入力フォームが表示されていればOKです！</li>
 </ol>
 <blockquote>
-<p>Topic: 単語を色々入力して、しりとりとして成立しているか確認してみましょう</p>
+<p>Topic: 単語を色々入力して、しりとりとして成立しているか確認してみましょう。</p>
 </blockquote>
 <h2 id="step-10-%E3%81%97%E3%82%8A%E3%81%A8%E3%82%8A%E3%81%AE%E5%AE%9F%E8%A3%85-%E3%82%A8%E3%83%A9%E3%83%BC%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">Step 10. しりとりの実装: エラーを実装してみよう</h2>
 <p>「りんご」の次に「らっぱ」などの続かない単語が入力された時に、エラーを表示できるようにしてみましょう。ここでは、<code>application/json</code>形式のデータを返すようにしてみます。Webとサーバーを以下のように書き換えてください。</p>
@@ -1129,21 +1112,21 @@ body {
 <p>GitHubは、Gitのリポジトリをインターネット上で管理するためのサービスです。リポジトリをアップロードしておくことで、複数人での開発時のソースコードの共有、ソースコードのバックアップ、ご自身の実績の公開の場として、などの効果を期待できます。</p>
 <p>GitHubアカウントでログインしてリポジトリを作成し、成果物をアップロードしてみましょう。</p>
 <ol>
-<li>GitHubの新規リポジトリを作りましょう。<a href="https://github.com/new">https://github.com/new</a>にアクセスして、任意のリポジトリ名を入力、公開状態は「Public」としてください。他の設定は触らなくて大丈夫です</li>
+<li>GitHubの新規リポジトリを作りましょう。<a href="https://github.com/new">https://github.com/new</a>にアクセスして、任意のリポジトリ名を入力、公開状態は「Public」としてください。他の設定は触らなくて大丈夫です。</li>
 </ol>
 <p><img src="./imgs/10_github-new-project.png" alt=""></p>
 <ol start="2">
-<li>以下のような画面になれば、リポジトリの完成です。任意の方法で、GitHubにソースコードをプッシュしてみましょう。CUIで操作する場合は、GitHubの画面に表示されているコマンドを実行すればOKです</li>
+<li>以下のような画面になれば、リポジトリの完成です。任意の方法で、GitHubにソースコードをプッシュしてみましょう。CUIで操作する場合は、GitHubの画面に表示されているコマンドを実行すればOKです。</li>
 </ol>
 <p><img src="./imgs/11_github-initialize-project.png" alt=""></p>
 <ol start="3">
-<li>以下の例では、<code>README.md</code>も一緒にプッシュしてみました。GitHubでは、<code>README.md</code>に記述した内容が画面下部に表示されます。ここに環境構築手順やリポジトリの説明等を記載すると分かりやすいです</li>
+<li>以下の例では、<code>README.md</code>も一緒にプッシュしてみました。GitHubでは、<code>README.md</code>に記述した内容が画面下部に表示されます。ここに環境構築手順やリポジトリの説明等を記載すると分かりやすいです。</li>
 </ol>
 <p><img src="./imgs/12_github-pushed.png" alt=""></p>
 <h2 id="step-12-deno-deploy%E3%81%AB%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86">Step 12. Deno Deployにデプロイしてみよう</h2>
 <blockquote>
 <p>注意
-GitHubアカウントの作成後、一週間程はDeno Deployの登録ができません。登録できない場合は、Step 12はスキップしてStep 13を先に終わらせてください</p>
+GitHubアカウントの作成後、一週間程はDeno Deployの登録ができません。登録できない場合は、Step 12はスキップしてStep 13を先に終わらせてください。</p>
 </blockquote>
 <h3 id="deno-deploy%E3%81%AE%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E7%99%BB%E9%8C%B2%E3%82%92%E3%81%97%E3%82%88%E3%81%86">Deno Deployのアカウント登録をしよう</h3>
 <p>Deno Deployでアカウント登録しましょう。Deno DeployのアカウントはGitHubアカウントと連携する形で作成できるので、先に作成したGitHubアカウントを使用してください。</p>
@@ -1154,24 +1137,24 @@ GitHubアカウントの作成後、一週間程はDeno Deployの登録ができ
 <p>早速、Deno Deployのプロジェクトを作ってみましょう。</p>
 <p>GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成します。</p>
 <ol>
-<li>「New Project」をクリックして、新規プロジェクトの作成画面を開きましょう</li>
+<li>「New Project」をクリックして、新規プロジェクトの作成画面を開きましょう。</li>
 </ol>
 <p><img src="./imgs/15_deno-deploy-home.png" alt=""></p>
 <ol start="2">
-<li>「Select User or Organization」から「Add Github Account」を選択します</li>
+<li>「Select User or Organization」から「Add Github Account」を選択します。</li>
 </ol>
 <p><img src="./imgs/16_deno-deploy-select-user.png" alt=""></p>
 <ol start="3">
-<li>Deno Deployから全てのリポジトリへのアクセスを許可する場合は「All repositories」、一部のリポジトリにのみ絞りたい場合は「Only select repositories」を選択して、作成したWebアプリのリポジトリを指定しましょう</li>
+<li>Deno Deployから全てのリポジトリへのアクセスを許可する場合は「All repositories」、一部のリポジトリにのみ絞りたい場合は「Only select repositories」を選択して、作成したWebアプリのリポジトリを指定しましょう。</li>
 </ol>
 <p><img src="./imgs/17_deno-deploy-github-install.png" alt=""></p>
 <ol start="4">
-<li>以下のようにアカウント設定、リポジトリを指定し、「Entrypoint」には<code>server.js</code>を指定して、「Deploy Project」をクリックします</li>
+<li>以下のようにアカウント設定、リポジトリを指定し、「Entrypoint」には<code>server.js</code>を指定して、「Deploy Project」をクリックします。</li>
 </ol>
 <p><img src="./imgs/18_deno-create-new-project-1.png" alt="">
 <img src="./imgs/19_deno-create-new-project-2.png" alt=""></p>
 <blockquote>
-<p>Topic: Entrypointに指定したDenoファイルが、サーバー起動時に自動で実行されます</p>
+<p>Topic: Entrypointに指定したDenoファイルが、サーバー起動時に自動で実行されます。</p>
 </blockquote>
 <ol start="5">
 <li>しばらくするとデプロイが完了します。以下の画像の二枚目の画面になったら、完了です。表示されているリンクをクリックしてWebサイトを開いてみましょう！</li>
@@ -1179,15 +1162,21 @@ GitHubアカウントの作成後、一週間程はDeno Deployの登録ができ
 <p><img src="./imgs/20_deno-deploying.png" alt="">
 <img src="./imgs/21_deno-deploy-success.png" alt="">
 <img src="./imgs/22_deno-deploy-web-site.png" alt=""></p>
-<h2 id="step-13-%E5%AE%9F%E8%A3%85%E3%82%92%E9%80%B2%E3%82%81%E3%82%88%E3%81%86">Step 13. 実装を進めよう</h2>
+<h2 id="step13-%E3%81%8A%E3%82%8F%E3%82%8A%E3%81%AB">Step13. おわりに</h2>
 <p>ここまでで、Deno DeployにWebアプリケーションをデプロイして動作させることができました。Deno DeployはGitHubと連携していますので、GitHubを更新すれば自動で修正された内容がデプロイされるようになっています。</p>
-<p>このまま実装を進めて、課題として示されたアプリケーションの仕様を満たしたものを実装してみましょう。以降はご自身で実装を進めていただくため、実装のヒントを掲載します。<br>
-尚、課題に記載していなかった詳細な仕様については自身で検討しながら進めていきますが、以下に示すのはあくまでも一例ですので、従う必要はありません。</p>
-<p>また、例として以下のWebサイトに必須仕様を満たすWebアプリケーションをデプロイしました。実装の参考にしてみてください。</p>
+<p>このまま実装を進めて、課題として示されたアプリケーションの仕様を満たしたものを実装してみましょう。<br>
+以降はご自身で実装を進めていただきますが、次セクションに実装のヒントを記載していますので、参考にしても構いません。</p>
+<p>必須仕様を満たした上で、便利・面白いと思う任意の機能を実装したら完成です。
+アプリケーションが完成したら、<code>README</code>を記載して、Google フォームから提出してください。</p>
+<h2 id="step-14-%E5%AE%9F%E8%A3%85%E3%81%AE%E3%83%92%E3%83%B3%E3%83%88">Step 14. 実装のヒント</h2>
+<p>ここでは、必須仕様を満たすための実装のヒントを掲載します。</p>
+<h3 id="%E5%AE%9F%E8%A3%85%E3%81%AE%E4%BE%8B">実装の例</h3>
+<p>以下のWebサイトに必須仕様を満たすWebアプリケーションをデプロイしました。実装の参考にしてみてください。
+尚、課題に記載していなかった詳細な仕様については自身で検討して実装していますが、以下に示すのはあくまでも一例ですので、従う必要はありません。</p>
 <p><a href="https://niba2828-deno-shirit-12.deno.dev/">https://niba2828-deno-shirit-12.deno.dev/</a></p>
 <h3 id="%22%E6%9C%AB%E5%B0%BE%E3%81%8C%E3%82%93%E3%81%A7%E7%B5%82%E3%82%8F%E3%82%8B%E5%8D%98%E8%AA%9E%E3%81%8C%E5%85%A5%E5%8A%9B%E3%81%95%E3%82%8C%E3%81%9F%E3%82%89%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%92%E7%B5%82%E4%BA%86%E3%81%99%E3%82%8B%22">&quot;末尾が「ん」で終わる単語が入力されたら、ゲームを終了する&quot;</h3>
 <h4 id="hint1-%E5%87%A6%E7%90%86%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B%E5%A0%B4%E6%89%80">Hint1: 処理を追加する場所</h4>
-<p><code>POST /shiritori</code>を実行した際の処理を修正して、以下の部分に処理を追加するとよさそうです</p>
+<p><code>POST /shiritori</code>を実行した際の処理を修正して、以下の部分に処理を追加するとよさそうです。</p>
 <pre class="hljs"><code><div>// server.js
   ...
           // previousWordの末尾とnextWordの先頭が同一か確認
@@ -1216,11 +1205,11 @@ GitHubアカウントの作成後、一週間程はDeno Deployの登録ができ
   ...
 </div></code></pre>
 <h4 id="hint2-%E3%82%B2%E3%83%BC%E3%83%A0%E7%B5%82%E4%BA%86%E6%99%82%E3%81%AEweb%E7%94%BB%E9%9D%A2%E8%A1%A8%E7%A4%BA">Hint2: ゲーム終了時のWeb画面表示</h4>
-<p>ゲームの終了時には、ゲームが終了したことを画面に表示するとよさそうです</p>
-<p>ゲームの終了を画面に表示する方法として、以下のものが考えられます</p>
+<p>ゲームの終了時には、ゲームが終了したことを画面に表示するとよさそうです。</p>
+<p>ゲームの終了を画面に表示する方法として、以下のものが考えられます。</p>
 <ol>
-<li>表示文言を修正して、入力フォームを削除する</li>
-<li>終了用の画面に遷移する</li>
+<li>表示文言を修正して、入力フォームを削除する。</li>
+<li>終了用の画面に遷移する。</li>
 </ol>
 <p>1の場合は、HTMLタグの操作や削除など、ここまでに実装した内容の応用で実装が可能です。<br>
 2の場合は、HTMLファイルを新しく作成し、ゲーム終了時にゲーム終了画面に遷移するようにすれば実装可能です。</p>
@@ -1277,9 +1266,6 @@ GitHubアカウントの作成後、一週間程はDeno Deployの登録ができ
 <h4 id="hint2-%E3%83%9A%E3%83%BC%E3%82%B8%E3%82%92%E3%83%AA%E3%83%AD%E3%83%BC%E3%83%89%E3%81%99%E3%82%8B">Hint2: ページをリロードする</h4>
 <p>リセット処理後、必要であればページをリロードして、Webサイトの表示をリセットしましょう。ゲーム終了時に要素を削除していた場合は、リロードの処理が必要になるかと思います。</p>
 <p>JavaScriptの関数を検索して、処理を追記してみましょう。</p>
-<h2 id="%E3%81%8A%E3%82%8F%E3%82%8A%E3%81%AB">おわりに</h2>
-<p>ここでは、Denoを用いてしりとりアプリを実装する手順を紹介しました。ここまでで実装できたWebアプリケーションをベースにしてカスタマイズすることで、課題を達成できると思います。</p>
-<p>アプリケーションが完成したら<code>README</code>を記載して、Google フォームから提出してください。</p>
 
 </body>
 </html>

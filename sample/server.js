@@ -1,13 +1,12 @@
 // deno.landに公開されているモジュールをimport
 // denoではURLを直に記載してimportできます
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
+import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
 
 // 直前の単語を保持しておく
 let previousWord = "しりとり";
 
 // localhostにDenoのHTTPサーバーを展開
-serve(async (request) => {
+Deno.serve(async (request) => {
     // パス名を取得する
     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
     const pathname = new URL(request.url).pathname;

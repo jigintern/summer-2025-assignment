@@ -198,12 +198,8 @@ Denoが提供している`serve`関数を利用することで、簡単にHTTP�
 ```
 // server.js
 
-// deno.landに公開されているモジュールをimport
-// denoではURLを直に記載してimportできます
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-
 // localhostにDenoのHTTPサーバーを展開
-serve(request => {
+Deno.serve(request => {
     return new Response("Hello Deno!");
 });
 ```
@@ -230,15 +226,11 @@ HTTPサーバー上にアクセス数をカウントする変数を追加して�
 
 ```diff
   // server.js
-  
-  // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-  
 + // アクセス数を保持する変数をグローバル領域に定義
 + let count = 0;
 + 
   // localhostにDenoのHTTPサーバーを展開
-  serve(request => {
+  Deno.serve(request => {
 -     return new Response("Hello Deno!");
 +     count++;
 +     return new Response(`Count: ${count}`);
@@ -275,14 +267,11 @@ deno run --allow-net --watch server.js
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-  // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-
 - // アクセス数を保持する変数をグローバル領域に定義
 - let count = 0;
 - 
   // localhostにDenoのHTTPサーバーを展開
-  serve(request => {
+  Deno.serve(request => {
 -     count++;
 -     return new Response(`Count: ${count}`);
 +     return new Response(
@@ -345,13 +334,9 @@ deno run --allow-net --watch server.js
 3. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-  // deno.landに公開されているモジュールをimport
-  // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-  
   // localhostにDenoのHTTPサーバーを展開
-- serve(request => {
-+ serve(async (request) => {
+- Deno.serve(request => {
++ Deno.serve(async (request) => {
 +     const htmlText = await Deno.readTextFile("./public/index.html");
       return new Response(
           // Responseの第一引数にレスポンスのbodyを設置
@@ -407,7 +392,7 @@ body {
   // server.js
   ...
   // localhostにDenoのHTTPサーバーを展開
-  serve(async (request) => {
+  Deno.serve(async (request) => {
 +     // パス名を取得する
 +     // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
 +     const pathname = new URL(request.url).pathname;
@@ -447,11 +432,10 @@ body {
 ```diff
   // deno.landに公開されているモジュールをimport
   // denoではURLを直に記載してimportできます
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-+ import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
++ import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
 
   // localhostにDenoのHTTPサーバーを展開
-  serve(async (request) => {
+  Deno.serve(async (request) => {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
@@ -549,14 +533,13 @@ body {
 
 ```diff
   ...
-  import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
-  import { serveDir } from "https://deno.land/std@0.194.0/http/file_server.ts";
+  import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
   
 + // 直前の単語を保持しておく
 + let previousWord = "しりとり";
 + 
   // localhostにDenoのHTTPサーバーを展開
-  serve(async (request) => {
+  Deno.serve(async (request) => {
       // パス名を取得する
       // https://localhost:8000/hoge に接続した場合"/hoge"が取得できる
       const pathname = new URL(request.url).pathname;
