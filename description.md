@@ -145,7 +145,7 @@ console.log("Hello World!");
 保存が完了したら、Denoで実行してみましょう！
 
 ```sh
-deno server.js
+deno run server.js
 
 # Hello World!
 ```
