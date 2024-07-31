@@ -891,7 +891,7 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
 以下のWebサイトに必須仕様を満たすWebアプリケーションをデプロイしました。実装の参考にしてみてください。
 尚、課題に記載していなかった詳細な仕様については自身で検討して実装していますが、以下に示すのはあくまでも一例ですので、従う必要はありません。
 
-[https://niba2828-deno-shirit-12.deno.dev/](https://niba2828-deno-shirit-12.deno.dev/)  
+[https://dice-deno-shirit-93.deno.dev/](https://dice-deno-shirit-93.deno.dev/)  
 
 ### "末尾が「ん」で終わる単語が入力されたら、ゲームを終了する"
 
