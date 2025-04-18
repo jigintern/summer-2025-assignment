@@ -40,7 +40,7 @@
   }
 </style>
 
-# jig.jp サマーインターンシップ2024 選考課題
+# jig.jp サマーインターンシップ 選考課題
 
 ## はじめに
 
@@ -62,8 +62,8 @@
 - アプリの動作確認の方法（WebサイトのURLや、セットアップを含めたアプリケーションの実行手順等）
 - 参考にしたWebサイト
 
-**課題提出用Googleフォーム**  
-[https://forms.gle/6qYWrwsMaz8v7yLf7](https://forms.gle/6qYWrwsMaz8v7yLf7)
+<!-- **課題提出用Googleフォーム**  
+[https://forms.gle/6qYWrwsMaz8v7yLf7](https://forms.gle/6qYWrwsMaz8v7yLf7) -->
 
 ### 仕様
 
