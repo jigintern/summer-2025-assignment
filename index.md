@@ -153,14 +153,17 @@ DenoはNode.jsの作者であるライアン・ダール氏によって実装さ
 「Install Deno」の項目に記載されたコマンドをご自身のOSに合わせて実行するだけで、インストールが可能です。  
 インストールが完了したら、以下のコマンドを実行してみましょう。バージョン情報が表示されればOKです！
 
+> バージョン情報は資料作成時のものです。  
+> これと同じか、より新しいバージョンになっていることを確認してください。
+
 ```sh
 # 入力
 deno --version
 
 # 出力
-# deno 1.42.2 (release, aarch64-apple-darwin)
-# v8 12.3.219.9
-# typescript 5.4.3
+# deno 2.2.11 (stable, release, aarch64-apple-darwin)
+# v8 13.5.212.10-rusty
+# typescript 5.7.3
 ```
 
 ### DenoでHello World
