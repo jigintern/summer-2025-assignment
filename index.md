@@ -282,9 +282,9 @@ deno run --allow-net --watch server.js
 
 ## Step 6. HTMLを表示してみよう
 
-ブラウザにHTMLを表示させてみましょう。レスポンスに`h1`タグをつけ、ヘッダ情報を指定します。
+ブラウザにHTMLを表示させてみましょう。レスポンスをHTML形式に変更し、ヘッダ情報に`Content-Type`を指定します。
 
-今回はヘッダ情報の`Content-Type`に`text/html`を指定して、ブラウザにHTML形式のデータを返すことを通知します。`Content-Type`には様々なものがあり、例として以下のようなものが挙げられます。
+`Content-Type`に`text/html`を指定して、ブラウザにHTML形式のデータを返すことを通知します。`Content-Type`には様々なものがあり、例として以下のようなものが挙げられます。
 
 | Content-Type | データ |
 | -- | -- |
@@ -295,29 +295,27 @@ deno run --allow-net --watch server.js
 | image/jpeg | 画像（JPEG）ファイル |
 | image/png | 画像（PNG）ファイル |
 
-1. `server.js`ファイルを以下の内容で編集します。
+1. `server.js`ファイルを以下の内容で置き換えます。
 
-```diff
-- // アクセス数を保持する変数をグローバル領域に定義
-- let count = 0;
-- 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(request => {
--     count++;
--     return new Response(`Count: ${count}`);
-+     return new Response(
-+         // Responseの第一引数にレスポンスのbodyを設置
-+         "<h1>H1見出しです</h1>",
-+         // Responseの第二引数にヘッダ情報等の付加情報を設置
-+         {
-+             // レスポンスにヘッダ情報を付加
-+             headers: {
-+                 // text/html形式のデータで、文字コードはUTF-8であること
-+                 "Content-Type": "text/html; charset=utf-8"
-+             }
-+         }
-+     );
-  });
+```js
+// server.js
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve((_req) => {
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        "<h1>H1見出しです</h1>",
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
+});
+
 ```
 
 2. ブラウザを再読み込みして、`H1見出しです`と大きく表示されればOKです！
