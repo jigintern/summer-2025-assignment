@@ -254,19 +254,19 @@ deno run --allow-net server.js
 
 HTTPサーバー上にアクセス数をカウントする変数を追加して、アクセス数を確認してみましょう。
 
-1. `server.js`ファイルを以下の内容で編集します。
+1. `server.js`ファイルを以下の内容に書き換えます。
 
-```diff
-  // server.js
-+ // アクセス数を保持する変数をグローバル領域に定義
-+ let count = 0;
-+ 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(request => {
--     return new Response("Hello Deno!");
-+     count++;
-+     return new Response(`Count: ${count}`);
-  });
+```js
+// server.js
+// アクセス数を保持する変数をグローバル領域に定義
+let count = 0;
+
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve((_req) => {
+    count++;
+    return new Response(`Hello World! ${count}`);
+});
 ```
 
 2. `--allow-net`に加えて、`--watch`オプションを追加して`server.js`を起動してください。このオプションを指定すると、Denoがファイルの変更を自動でサーバーに反映してくれます。
