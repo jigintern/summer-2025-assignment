@@ -200,6 +200,22 @@ VS CodeにDenoの拡張機能をインストールしましょう。画面左側
 
 ![](./imgs/03_vscode-deno-setup-check.png)
 
+### 設定の追記(任意)
+
+追加で、保存時にコードのフォーマットを行うように設定しましょう。  
+Denoでは、`deno fmt` コマンドでコードのフォーマットを行うことができますが、VSCode上でファイルを変更し、保存した際に自動で実行されるようにします。
+
+下記のように設定ファイルへ追記しましょう。
+
+```diff
+{
+-    "deno.enable": true
++    "deno.enable": true,
++    "deno.lint": true,
++    "editor.formatOnSave": true,
++    "editor.defaultFormatter": "denoland.vscode-deno"
+}
+```
 
 ## Step 4. DenoでHTTPサーバーを立ててみよう
 
