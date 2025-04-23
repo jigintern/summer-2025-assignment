@@ -326,16 +326,18 @@ Deno.serve((_req) => {
 
 ### HTMLファイルを読み込んでみよう
 
-直前のセクションではHTMLを文字列としてスクリプト内に直に記述しましたが、別のファイルとして保存しておいたものを読み込むようにしてみましょう。
+前のステップではHTMLを文字列として直接記述しましたが、別のファイルとして保存しておいたHTMLを読み込むようにしてみます
 
 また、ファイルの読み込みが完了するまではレスポンスを返さないように、処理に`async-await`を追加します。JavaScriptでは非同期処理が採用されているため、`async-await`を記載しなければファイルがうまく表示できない場合があります。
 
-> Topic: 「JavaScript 非同期処理」「JavaScript async await」などで調べてみましょう。
+> 非同期処理について、詳しく解説はしません。気になる方はMDNなどを参考にしてください。
+> https://developer.mozilla.org/ja/docs/Learn_web_development/Extensions/Async_JS
 
 1. `public`フォルダを作成し、中に`index.html`を作成します。フォルダ構成は以下のようになります。
 
 ```
 ├─ .vscode/
+│  └─ settings.json
 ├─ public/
 │  └─ index.html
 └─ server.js
@@ -343,41 +345,57 @@ Deno.serve((_req) => {
 
 2. `index.html`ファイルに以下の内容を記述します。
 
-```
+```html
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
-<!-- headタグの中にはメタデータ等を記載する -->
 <head>
-  <meta charset="utf-8">
+    <!-- headタグの中にはメタデータ等を記載する -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
-<!-- bodyタグの中には実際に表示するものなどを書く -->
 <body>
-  <h1>H1見出しですよ</h1>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
+    <h1>H1見出しですよ</h1>
 </body>
 
 </html>
 ```
 
-3. `server.js`ファイルを以下の内容で編集します。
+3. `server.js`ファイルを以下の内容で置き換えます。
 
-```diff
-  // localhostにDenoのHTTPサーバーを展開
-- Deno.serve(request => {
-+ Deno.serve(async (request) => {
-+     const htmlText = await Deno.readTextFile("./public/index.html");
-      return new Response(
-          // Responseの第一引数にレスポンスのbodyを設置
--         "<h1>H1見出しです</h1>",
-+         htmlText,
-          // Responseの第二引数にヘッダ情報等の付加情報を設置
-          {
-              // レスポンスにヘッダ情報を付加
-  ...
+```js
+// server.js
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
+    const htmlText = await Deno.readTextFile("./public/index.html");
+
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        htmlText,
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
+});
+
 ```
 
-4. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
+4. このプログラムではファイルの読み込みが発生するので、`--allow-net`に加えて、`--allow-read`が必要になります。しかし、一つずつ許可するのは大変なので、開発時は全てを許可するようにして再度実行します。
+
+```sh
+deno run -A --watch server.js
+```
+
+5. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
 
 ![](./imgs/07_tutorial-read-file.png)
 
@@ -389,6 +407,7 @@ CSSファイルを作成して、読み込めるようにしてみましょう�
 
 ```
 ├─ .vscode/
+│  ├─ settings.json
 ├─ public/
 │  ├─ index.html
 │  └─ styles.css
@@ -397,54 +416,66 @@ CSSファイルを作成して、読み込めるようにしてみましょう�
 
 2. 各ファイルを、以下のように編集します。
 
-```
+```css
 /* public/styles.css */
+
 body {
     background: skyblue;
 }
 ```
 
 ```diff
-  <!-- public/index.html -->
-  ...
-  <!-- headタグの中にはメタデータ等を記載する -->
-  <head>
-    <meta charset="utf-8">
-+   <link rel="stylesheet" href="styles.css">
-  </head>
-
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
-  ...
+<!-- public/index.html -->
+...(省略)
+<head>
+    <!-- headタグの中にはメタデータ等を記載する -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
++    <link rel="stylesheet" href="styles.css">
+</head>
+...(省略)
 ```
 
-```diff
-  // server.js
-  ...
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(async (request) => {
-+     // パス名を取得する
-+     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-+     const pathname = new URL(request.url).pathname;
-+     console.log(`pathname: ${pathname}`);
-+ 
-+     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
-+     if (pathname === "/styles.css") {
-+         const cssText = await Deno.readTextFile("./public/styles.css");
-+         return new Response(
-+             cssText,
-+             {
-+                 headers: {
-+                     // text/css形式のデータで、文字コードはUTF-8であること
-+                     "Content-Type": "text/css; charset=utf-8"
-+                 }
-+             }
-+         );
-+     }
-+ 
-      const htmlText = await Deno.readTextFile("./public/index.html");
-      return new Response(
-          // Responseの第一引数にレスポンスのbodyを設置
-  ...
+```js
+// server.js
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
+    // パス名を取得する
+    // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+    const pathname = new URL(_req.url).pathname;
+    console.log(`pathname: ${pathname}`);
+
+    // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
+    if (pathname === "/styles.css") {
+        const cssText = await Deno.readTextFile("./public/styles.css");
+        return new Response(
+            cssText,
+            {
+                headers: {
+                    // text/css形式のデータで、文字コードはUTF-8であること
+                    "Content-Type": "text/css; charset=utf-8"
+                }
+            }
+        );
+    }
+
+    // http://localhost:8000/ へのアクセス時、"./public/index.html"を返す
+    const htmlText = await Deno.readTextFile("./public/index.html");
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        htmlText,
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
+});
 ```
 
 3. ブラウザを再読み込みして、背景が青くなっていればOKです！
@@ -453,64 +484,32 @@ body {
 
 ### publicフォルダ全体を公開してみよう
 
-ページ数が増えた場合に、返すファイルを一つ一つ指定するのは手間がかかります。  
+1つずつ返すファイルを指定する実装では、ページ数が増えた場合に手間がかかります。  
 そこで、`public`以下を静的ファイルサーバーとして公開し、ここに入れたファイルは自動で公開されるようにしてみましょう。
 
-1. `server.js`ファイルを以下の内容で編集します。
+1. `server.js`ファイルを以下の内容で置き換えます。
 
-```diff
-  // deno.landに公開されているモジュールをimport
-  // denoではURLを直に記載してimportできます
-+ import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
+```js
+// server.js
+import { serveDir } from "jsr:@std/http/file-server";
 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(async (request) => {
-      // パス名を取得する
-      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-      const pathname = new URL(request.url).pathname;
-      console.log(`pathname: ${pathname}`);
-  
--     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
--     if (pathname === "/styles.css") {
--         const cssText = await Deno.readTextFile("./public/styles.css");
--         return new Response(
--             cssText,
--             {
--                 headers: {
--                     // text/css形式のデータで、文字コードはUTF-8であること
--                     "Content-Type": "text/css; charset=utf-8"
--                 }
--             }
--         );
--     }
-- 
--     const htmlText = await Deno.readTextFile("./public/index.html");
--     return new Response(
--         // Responseの第一引数にレスポンスのbodyを設置
--         htmlText,
--         // Responseの第二引数にヘッダ情報等の付加情報を設置
--             // レスポンスにヘッダ情報を付加
--             headers: {
--                 // text/html形式のデータで、文字コードはUTF-8であること
--                 "Content-Type": "text/html; charset=utf-8"
--             }
--     );
-+     // ./public以下のファイルを公開
-+     return serveDir(
-+         request,
-+         {
-+             /*
-+             - fsRoot: 公開するフォルダを指定
-+             - urlRoot: フォルダを展開するURLを指定。今回はlocalhost:8000/に直に展開する
-+             - enableCors: CORSの設定を付加するか
-+             */
-+             fsRoot: "./public/",
-+             urlRoot: "",
-+             enableCors: true,
-+         }
-+     );
-  
-  });
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
+    // ./public以下のファイルを公開
+    return serveDir(
+        _req,
+        {
+            /*
+            - fsRoot: 公開するフォルダを指定
+            - urlRoot: フォルダを展開するURLを指定。今回はlocalhost:8000/に直に展開する
+            - enableCors: CORSの設定を付加するか
+            */
+            fsRoot: "./public/",
+            urlRoot: "",
+            enableCors: true,
+        }
+    );
+});
 ```
 
 2. ブラウザを再読み込みして、先程と同じ内容が表示されればOKです！
