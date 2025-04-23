@@ -168,7 +168,7 @@ deno --version
 
 ### DenoでHello World
 
-Hello Worldプログラムを作って実行してみましょう。  
+Hello Worldを出力するプログラムを作って実行してみましょう。  
 空のフォルダを作り、中に `server.js` を作成して、以下のプログラムを書き込んでください。
 
 ```
