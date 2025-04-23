@@ -229,13 +229,11 @@ Denoが提供している`serve`関数を利用することで、簡単にHTTP�
 
 1. `server.js`の内容を以下のように書き換えて保存してください。
 
-```
+```js
 // server.js
 
 // localhostにDenoのHTTPサーバーを展開
-Deno.serve(request => {
-    return new Response("Hello Deno!");
-});
+Deno.serve((_req) => new Response("Hello Deno!"));
 ```
 
 2. `--allow-net`オプションをつけて`server.js`を起動してください。このオプションがない場合、Denoがネットワークにアクセスできません。
