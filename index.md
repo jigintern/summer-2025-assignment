@@ -516,24 +516,21 @@ Deno.serve(async (_req) => {
 
 ## Step 8. ブラウザでJavaScriptを実行してみよう
 
-ブラウザでJavaScriptを実行してみましょう。`alert`関数を使用して、ブラウザ上でアラートを出力します。
-
+ブラウザでJavaScriptを実行してみましょう。`alert`関数を使用して、ブラウザ上でアラートを出力します。  
 今回は簡単のため、HTMLファイルに直に処理を記述します。
 
-1. `public/index.html`ファイルを以下の内容で編集します。
+1. `public/index.html`のbodyに以下のように追記します。
 
 ```diff
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
-  <body>
+<body>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
     <h1>H1見出しですよ</h1>
-+ 
-+   <!-- JavaScriptを実行 -->
-+   <script>
-+     alert("Hello JavaScript!");
-+   </script>
-  </body>
-  
-  </html>
++
++    <!-- JavaScriptを実行 -->
++    <script>
++        alert("Hello JavaScript!");
++    </script>
+</body>
 ```
 
 2. ブラウザを再読み込みして、アラートが表示されればOKです！
