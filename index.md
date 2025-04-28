@@ -557,28 +557,26 @@ Deno.serve(async (_req) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-  ...
-  import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
-  
+// server.js
+import { serveDir } from "jsr:@std/http/file-server";
+
 + // 直前の単語を保持しておく
 + let previousWord = "しりとり";
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
++     // パス名を取得する
++     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
++     const pathname = new URL(_req.url).pathname
++     console.log(`pathname: ${pathname}`);
 + 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(async (request) => {
-      // パス名を取得する
-      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-      const pathname = new URL(request.url).pathname;
-      console.log(`pathname: ${pathname}`);
-  
 +     // GET /shiritori: 直前の単語を返す
-+     if (request.method === "GET" && pathname === "/shiritori") {
++     if (_req.method === "GET" && pathname === "/shiritori") {
 +         return new Response(previousWord);
 +     }
 + 
-      // ./public以下のファイルを公開
-      return serveDir(
-          request,
-  ...	
+    // ./public以下のファイルを公開
+    ...
 ```
 
 2. ブラウザで`http://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
@@ -632,30 +630,28 @@ Deno.serve(async (_req) => {
 1. `public/index.html`ファイルを以下の内容で編集します。`fetch`を利用して`GET /shiritori`にリクエストを送信し、受信したデータを`p`タグに挿入します。
 
 ```diff
-  ...
+<body>
   <!-- bodyタグの中には実際に表示するものなどを書く -->
-  <body>
--   <h1>H1見出しですよ</h1>
-+   <h1>しりとり</h1>
-+   <!-- 現在の単語を表示する場所 -->
-+   <p id="previousWord"></p>
-  
-    <!-- JavaScriptを実行 -->
-    <script>
--     alert("Hello JavaScript!");
-+     window.onload = async (event) => {
-+       // GET /shiritoriを実行
-+       const response = await fetch("/shiritori", { method: "GET" });
-+       // responseの中からレスポンスのテキストデータを取得
-+       const previousWord = await response.text();
-+       // id: previousWordのタグを取得
-+       const paragraph = document.querySelector("#previousWord");
-+       // 取得したタグの中身を書き換える
-+       paragraph.innerHTML = `前の単語: ${previousWord}`;
-+     }
-    </script>
-  </body>
-...
+- <h1>H1見出しですよ</h1>
++ <h1>しりとり</h1>
++ <!-- 現在の単語を表示する場所 -->
++ <p id="previousWord"></p>
+ 
+  <!-- JavaScriptを実行 -->
+  <script>
+-   alert("Hello JavaScript!");
++   window.onload = async (event) => {
++     // GET /shiritoriを実行
++     const response = await fetch("/shiritori", { method: "GET" });
++     // responseの中からレスポンスのテキストデータを取得
++     const previousWord = await response.text();
++     // id: previousWordのタグを取得
++     const paragraph = document.querySelector("#previousWord");
++     // 取得したタグの中身を書き換える
++     paragraph.innerHTML = `前の単語: ${previousWord}`;
++   }
+  </script>
+</body>
 ```
 
 2. ブラウザを`http://localhost:8000`で再読み込みして、「しりとり」と表示されればOKです！
@@ -699,64 +695,67 @@ Deno.serve(async (_req) => {
 1. `public/index.html`ファイルを以下の内容で編集します。送信ボタンが押下された時に`input`タグの中身を取得して、`POST /shiritori`に送信します。
 
 ```diff
-   <h1>しりとり</h1>
-    <!-- 現在の単語を表示する場所 -->
-    <p id="previousWord"></p>
-+   <!-- 次の文字を入力するフォーム -->
-+   <input id="nextWordInput" type="text" />
-+   <button id="nextWordSendButton">送信</button>
+<body>
+  <!-- bodyタグの中には実際に表示するものなどを書く -->
+  <h1>しりとり</h1>
+  <!-- 現在の単語を表示する場所 -->
+  <p id="previousWord"></p>
++ <!-- 次の文字を入力するフォーム -->
++ <input id="nextWordInput" type="text" />
++ <button id="nextWordSendButton">送信</button>
   
-    <!-- JavaScriptを実行 -->
-    <script>
-      window.onload = async (event) => {
--       // 試しでPOST /shiritoriを実行してみる
--       // りんごと入力……
--       await fetch(
--         "/shiritori",
--         {
--           method: "POST",
--           headers: { "Content-Type": "application/json" },
--           body: JSON.stringify({ nextWord: "りんご" })
--         }
--       );
-        // GET /shiritoriを実行
-        const response = await fetch("/shiritori", { method: "GET" });
-        // responseの中からレスポンスのテキストデータを取得
-        const previousWord = await response.text();
-        // id: previousWordのタグを取得
-        const paragraph = document.querySelector("#previousWord");
-        // 取得したタグの中身を書き換える
-        paragraph.innerHTML = `前の単語: ${previousWord}`;
-      }
-  
-+     // 送信ボタンの押下時に実行
-+     document.querySelector("#nextWordSendButton").onclick = async(event) => {
-+       // inputタグを取得
-+       const nextWordInput = document.querySelector("#nextWordInput");
-+       // inputの中身を取得
-+       const nextWordInputText = nextWordInput.value;
-+       // POST /shiritoriを実行
-+       // 次の単語をresponseに格納
-+       const response = await fetch(
-+         "/shiritori",
-+         {
-+           method: "POST",
-+           headers: { "Content-Type": "application/json" },
-+           body: JSON.stringify({ nextWord: nextWordInputText })
-+         }
-+       );
+  <!-- JavaScriptを実行 -->
+  <script>
+    window.onload = async (event) => {
+-     // 試しでPOST /shiritoriを実行してみる
+-     // りんごと入力……
+-     await fetch(
+-       "/shiritori",
+-       {
+-         method: "POST",
+-         headers: { "Content-Type": "application/json" },
+-         body: JSON.stringify({ nextWord: "りんご" })
+-       }
+-     );
+-
+      // GET /shiritoriを実行
+      const response = await fetch("/shiritori", { method: "GET" });
+      // responseの中からレスポンスのテキストデータを取得
+      const previousWord = await response.text();
+      // id: previousWordのタグを取得
+      const paragraph = document.querySelector("#previousWord");
+      // 取得したタグの中身を書き換える
+      paragraph.innerHTML = `前の単語: ${previousWord}`;
+    }
+ 
++   // 送信ボタンの押下時に実行
++   document.querySelector("#nextWordSendButton").onclick = async(event) => {
++     // inputタグを取得
++     const nextWordInput = document.querySelector("#nextWordInput");
++     // inputの中身を取得
++     const nextWordInputText = nextWordInput.value;
++     // POST /shiritoriを実行
++     // 次の単語をresponseに格納
++     const response = await fetch(
++       "/shiritori",
++       {
++         method: "POST",
++         headers: { "Content-Type": "application/json" },
++         body: JSON.stringify({ nextWord: nextWordInputText })
++       }
++     );
 + 
-+       const previousWord = await response.text();
++     const previousWord = await response.text();
 + 
-+       // id: previousWordのタグを取得
-+       const paragraph = document.querySelector("#previousWord");
-+       // 取得したタグの中身を書き換える
-+       paragraph.innerHTML = `前の単語: ${previousWord}`;
-+       // inputタグの中身を消去する
-+       nextWordInput.value = "";
-+     }
-    </script>
-  </body>
++     // id: previousWordのタグを取得
++     const paragraph = document.querySelector("#previousWord");
++     // 取得したタグの中身を書き換える
++     paragraph.innerHTML = `前の単語: ${previousWord}`;
++     // inputタグの中身を消去する
++     nextWordInput.value = "";
++   }
+  </script>
+</body>
 ```
 
 2. ブラウザを読み込み直して、入力フォームが表示されていればOKです！
