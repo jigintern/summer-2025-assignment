@@ -212,7 +212,11 @@ Denoでは、`deno fmt` コマンドでコードのフォーマットを行う�
 +    "deno.enable": true,
 +    "deno.lint": true,
 +    "editor.formatOnSave": true,
-+    "editor.defaultFormatter": "denoland.vscode-deno"
++    "editor.defaultFormatter": "denoland.vscode-deno",
++    "[html]": {
++        "editor.defaultFormatter": "vscode.html-language-features",
++        "editor.tabSize": 2,
++    }
 }
 ```
 
