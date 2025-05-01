@@ -590,31 +590,44 @@ Deno.serve(async (_req) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-      // GET /shiritori: 直前の単語を返す
-      if (request.method === "GET" && pathname === "/shiritori") {
-          return new Response(previousWord);
-      }
+    // GET /shiritori: 直前の単語を返す
+    if (_req.method === "GET" && pathname === "/shiritori") {
+        return new Response(previousWord);
+    }
   
-+     // POST /shiritori: 次の単語を入力する
-+     if (request.method === "POST" && pathname === "/shiritori") {
-+         // リクエストのペイロードを取得
-+         const requestJson = await request.json();
-+         // JSONの中からnextWordを取得
-+         const nextWord = requestJson["nextWord"];
++     // POST /shiritori: 次の単語を受け取って保存する
++   if (_req.method === "POST" && pathname === "/shiritori") {
++       // リクエストのペイロードを取得
++       const requestJson = await _req.json();
++       // JSONの中からnextWordを取得
++       const nextWord = requestJson["nextWord"];
 + 
-+         // previousWordの末尾とnextWordの先頭が同一か確認
-+         if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
-+             // 同一であれば、previousWordを更新
-+             previousWord = nextWord;
-+         }
++       // previousWordの末尾とnextWordの先頭が同一か確認
++       if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
++           // 同一であれば、previousWordを更新
++           previousWord = nextWord;
++       }
++       // 同一でない単語の入力時に、エラーを返す
++       else {
++           return new Response(
++               JSON.stringify({
++                   "errorMessage": "前の単語に続いていません",
++                   "errorCode": "10001"
++               }),
++               {
++                   status: 400,
++                   headers: { "Content-Type": "application/json; charset=utf-8" },
++               }
++           );
++       }
 + 
-+         // 現在の単語を返す
-+         return new Response(previousWord);
-+     }
++       // 現在の単語を返す
++       return new Response(previousWord);
++   }
 + 
       // ./public以下のファイルを公開
       return serveDir(
-          request,
+          _req,
 ```
 
 2. `POST`のリクエストの送信は専用のツールやOSによって異なるコマンドが必要なので、動作確認はスキップして、次のセクションに進みましょう。もし動作確認の方法が分かるようであれば、動作確認してみてください。
