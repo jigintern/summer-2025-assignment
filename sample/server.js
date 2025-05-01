@@ -1,26 +1,25 @@
-// deno.landに公開されているモジュールをimport
-// denoではURLを直に記載してimportできます
-import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
+// server.js
+import { serveDir } from "jsr:@std/http/file-server";
 
 // 直前の単語を保持しておく
 let previousWord = "しりとり";
 
 // localhostにDenoのHTTPサーバーを展開
-Deno.serve(async (request) => {
+Deno.serve(async (_req) => {
     // パス名を取得する
     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-    const pathname = new URL(request.url).pathname;
+    const pathname = new URL(_req.url).pathname
     console.log(`pathname: ${pathname}`);
 
     // GET /shiritori: 直前の単語を返す
-    if (request.method === "GET" && pathname === "/shiritori") {
+    if (_req.method === "GET" && pathname === "/shiritori") {
         return new Response(previousWord);
     }
 
-    // POST /shiritori: 次の単語を入力する
-    if (request.method === "POST" && pathname === "/shiritori") {
+    // POST /shiritori: 次の単語を受け取って保存する
+    if (_req.method === "POST" && pathname === "/shiritori") {
         // リクエストのペイロードを取得
-        const requestJson = await request.json();
+        const requestJson = await _req.json();
         // JSONの中からnextWordを取得
         const nextWord = requestJson["nextWord"];
 
@@ -49,7 +48,7 @@ Deno.serve(async (request) => {
 
     // ./public以下のファイルを公開
     return serveDir(
-        request,
+        _req,
         {
             /*
             - fsRoot: 公開するフォルダを指定
@@ -60,6 +59,5 @@ Deno.serve(async (request) => {
             urlRoot: "",
             enableCors: true,
         }
-    )
-    
+    );
 });
