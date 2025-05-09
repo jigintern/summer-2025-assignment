@@ -8,7 +8,7 @@ let previousWord = "しりとり";
 Deno.serve(async (_req) => {
     // パス名を取得する
     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-    const pathname = new URL(_req.url).pathname
+    const pathname = new URL(_req.url).pathname;
     console.log(`pathname: ${pathname}`);
 
     // GET /shiritori: 直前の単語を返す
