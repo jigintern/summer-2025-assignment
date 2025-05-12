@@ -207,17 +207,17 @@ Denoでは、`deno fmt` コマンドでコードのフォーマットを行う�
 先ほど作成された、`.vscode/settings.json`に以下の内容を追記します。
 
 ```diff
-{
--    "deno.enable": true
-+    "deno.enable": true,
-+    "deno.lint": true,
-+    "editor.formatOnSave": true,
-+    "editor.defaultFormatter": "denoland.vscode-deno",
-+    "[html]": {
-+        "editor.defaultFormatter": "vscode.html-language-features",
-+        "editor.tabSize": 2,
-+    }
-}
+  {
+-     "deno.enable": true
++     "deno.enable": true,
++     "deno.lint": true,
++     "editor.formatOnSave": true,
++     "editor.defaultFormatter": "denoland.vscode-deno",
++     "[html]": {
++         "editor.defaultFormatter": "vscode.html-language-features",
++         "editor.tabSize": 2,
++     }
+  }
 ```
 
 各設定項目について、簡単に説明しておくと以下のようになります。
@@ -306,14 +306,14 @@ deno run --allow-net --watch server.js
 
 `Content-Type`に`text/html`を指定して、ブラウザにHTML形式のデータを返すことを通知します。`Content-Type`には様々なものがあり、例として以下のようなものが挙げられます。
 
-| Content-Type | データ |
-| -- | -- |
-| text/html | HTML |
-| text/css | CSS |
-| text/javascript | JavaScript |
-| application/json | JSON形式 |
-| image/jpeg | 画像（JPEG）ファイル |
-| image/png | 画像（PNG）ファイル |
+| Content-Type     | データ               |
+| ---------------- | -------------------- |
+| text/html        | HTML                 |
+| text/css         | CSS                  |
+| text/javascript  | JavaScript           |
+| application/json | JSON形式             |
+| image/jpeg       | 画像（JPEG）ファイル |
+| image/png        | 画像（PNG）ファイル  |
 
 1. `server.js`ファイルを以下の内容で置き換えます。
 
@@ -445,16 +445,16 @@ body {
 ```
 
 ```diff
-<!-- public/index.html -->
-...(省略)
-<head>
+  <!-- public/index.html -->
+  ...(省略)
+  <head>
     <!-- headタグの中にはメタデータ等を記載する -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-+    <link rel="stylesheet" href="styles.css">
-</head>
-...(省略)
++   <link rel="stylesheet" href="styles.css">
+  </head>
+  ...(省略)
 ```
 
 ```js
@@ -542,15 +542,15 @@ Deno.serve(async (_req) => {
 1. `public/index.html`のbodyに以下のように追記します。
 
 ```diff
-<body>
+  <body>
     <!-- bodyタグの中には実際に表示するものなどを書く -->
     <h1>H1見出しですよ</h1>
 +
-+    <!-- JavaScriptを実行 -->
-+    <script>
-+        alert("Hello JavaScript!");
-+    </script>
-</body>
++   <!-- JavaScriptを実行 -->
++   <script>
++     alert("Hello JavaScript!");
++   </script>
+  </body>
 ```
 
 2. ブラウザを再読み込みして、アラートが表示されればOKです！
@@ -577,14 +577,14 @@ Deno.serve(async (_req) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-// server.js
-import { serveDir } from "jsr:@std/http/file-server";
+  // server.js
+  import { serveDir } from "jsr:@std/http/file-server";
 
 + // 直前の単語を保持しておく
 + let previousWord = "しりとり";
 
-// localhostにDenoのHTTPサーバーを展開
-Deno.serve(async (_req) => {
+  // localhostにDenoのHTTPサーバーを展開
+  Deno.serve(async (_req) => {
 +     // パス名を取得する
 +     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
 +     const pathname = new URL(_req.url).pathname
@@ -595,8 +595,8 @@ Deno.serve(async (_req) => {
 +         return new Response(previousWord);
 +     }
 + 
-    // ./public以下のファイルを公開
-    ...
+      // ./public以下のファイルを公開
+  ...
 ```
 
 2. ブラウザで`http://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
@@ -610,27 +610,27 @@ Deno.serve(async (_req) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-    // GET /shiritori: 直前の単語を返す
-    if (_req.method === "GET" && pathname === "/shiritori") {
-        return new Response(previousWord);
-    }
+      // GET /shiritori: 直前の単語を返す
+      if (_req.method === "GET" && pathname === "/shiritori") {
+          return new Response(previousWord);
+      }
   
 +     // POST /shiritori: 次の単語を受け取って保存する
-+   if (_req.method === "POST" && pathname === "/shiritori") {
-+       // リクエストのペイロードを取得
-+       const requestJson = await _req.json();
-+       // JSONの中からnextWordを取得
-+       const nextWord = requestJson["nextWord"];
++     if (_req.method === "POST" && pathname === "/shiritori") {
++         // リクエストのペイロードを取得
++         const requestJson = await _req.json();
++         // JSONの中からnextWordを取得
++         const nextWord = requestJson["nextWord"];
 + 
-+       // previousWordの末尾とnextWordの先頭が同一か確認
-+       if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
-+           // 同一であれば、previousWordを更新
-+           previousWord = nextWord;
-+       }
++         // previousWordの末尾とnextWordの先頭が同一か確認
++         if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
++             // 同一であれば、previousWordを更新
++             previousWord = nextWord;
++         }
 + 
-+       // 現在の単語を返す
-+       return new Response(previousWord);
-+   }
++         // 現在の単語を返す
++         return new Response(previousWord);
++     }
 + 
       // ./public以下のファイルを公開
       return serveDir(
@@ -650,28 +650,28 @@ Deno.serve(async (_req) => {
 1. `public/index.html`ファイルを以下の内容で編集します。`fetch`を利用して`GET /shiritori`にリクエストを送信し、受信したデータを`p`タグに挿入します。
 
 ```diff
-<body>
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
-- <h1>H1見出しですよ</h1>
-+ <h1>しりとり</h1>
-+ <!-- 現在の単語を表示する場所 -->
-+ <p id="previousWord"></p>
- 
-  <!-- JavaScriptを実行 -->
-  <script>
--   alert("Hello JavaScript!");
-+   window.onload = async (event) => {
-+     // GET /shiritoriを実行
-+     const response = await fetch("/shiritori", { method: "GET" });
-+     // responseの中からレスポンスのテキストデータを取得
-+     const previousWord = await response.text();
-+     // id: previousWordのタグを取得
-+     const paragraph = document.querySelector("#previousWord");
-+     // 取得したタグの中身を書き換える
-+     paragraph.innerHTML = `前の単語: ${previousWord}`;
-+   }
-  </script>
-</body>
+  <body>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
+-   <h1>H1見出しですよ</h1>
++   <h1>しりとり</h1>
++   <!-- 現在の単語を表示する場所 -->
++   <p id="previousWord"></p>
+
+    <!-- JavaScriptを実行 -->
+    <script>
+-     alert("Hello JavaScript!");
++     window.onload = async (event) => {
++       // GET /shiritoriを実行
++       const response = await fetch("/shiritori", { method: "GET" });
++       // responseの中からレスポンスのテキストデータを取得
++       const previousWord = await response.text();
++       // id: previousWordのタグを取得
++       const paragraph = document.querySelector("#previousWord");
++       // 取得したタグの中身を書き換える
++       paragraph.innerHTML = `前の単語: ${previousWord}`;
++     }
+    </script>
+  </body>
 ```
 
 2. ブラウザを`http://localhost:8000`で再読み込みして、「しりとり」と表示されればOKです！
@@ -715,67 +715,67 @@ Deno.serve(async (_req) => {
 1. `public/index.html`ファイルを以下の内容で編集します。送信ボタンが押下された時に`input`タグの中身を取得して、`POST /shiritori`に送信します。
 
 ```diff
-<body>
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
-  <h1>しりとり</h1>
-  <!-- 現在の単語を表示する場所 -->
-  <p id="previousWord"></p>
-+ <!-- 次の文字を入力するフォーム -->
-+ <input id="nextWordInput" type="text" />
-+ <button id="nextWordSendButton">送信</button>
-  
-  <!-- JavaScriptを実行 -->
-  <script>
-    window.onload = async (event) => {
--     // 試しでPOST /shiritoriを実行してみる
--     // りんごと入力……
--     await fetch(
--       "/shiritori",
--       {
--         method: "POST",
--         headers: { "Content-Type": "application/json" },
--         body: JSON.stringify({ nextWord: "りんご" })
--       }
--     );
+  <body>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
+    <h1>しりとり</h1>
+    <!-- 現在の単語を表示する場所 -->
+    <p id="previousWord"></p>
++   <!-- 次の文字を入力するフォーム -->
++   <input id="nextWordInput" type="text" />
++   <button id="nextWordSendButton">送信</button>
+
+    <!-- JavaScriptを実行 -->
+    <script>
+      window.onload = async (event) => {
+-       // 試しでPOST /shiritoriを実行してみる
+-       // りんごと入力……
+-       await fetch(
+-         "/shiritori",
+-         {
+-           method: "POST",
+-           headers: { "Content-Type": "application/json" },
+-           body: JSON.stringify({ nextWord: "りんご" })
+-         }
+-       );
 -
-      // GET /shiritoriを実行
-      const response = await fetch("/shiritori", { method: "GET" });
-      // responseの中からレスポンスのテキストデータを取得
-      const previousWord = await response.text();
-      // id: previousWordのタグを取得
-      const paragraph = document.querySelector("#previousWord");
-      // 取得したタグの中身を書き換える
-      paragraph.innerHTML = `前の単語: ${previousWord}`;
-    }
+        // GET /shiritoriを実行
+        const response = await fetch("/shiritori", { method: "GET" });
+        // responseの中からレスポンスのテキストデータを取得
+        const previousWord = await response.text();
+        // id: previousWordのタグを取得
+        const paragraph = document.querySelector("#previousWord");
+        // 取得したタグの中身を書き換える
+        paragraph.innerHTML = `前の単語: ${previousWord}`;
+      }
  
-+   // 送信ボタンの押下時に実行
-+   document.querySelector("#nextWordSendButton").onclick = async(event) => {
-+     // inputタグを取得
-+     const nextWordInput = document.querySelector("#nextWordInput");
-+     // inputの中身を取得
-+     const nextWordInputText = nextWordInput.value;
-+     // POST /shiritoriを実行
-+     // 次の単語をresponseに格納
-+     const response = await fetch(
-+       "/shiritori",
-+       {
-+         method: "POST",
-+         headers: { "Content-Type": "application/json" },
-+         body: JSON.stringify({ nextWord: nextWordInputText })
-+       }
-+     );
++     // 送信ボタンの押下時に実行
++     document.querySelector("#nextWordSendButton").onclick = async(event) => {
++       // inputタグを取得
++       const nextWordInput = document.querySelector("#nextWordInput");
++       // inputの中身を取得
++       const nextWordInputText = nextWordInput.value;
++       // POST /shiritoriを実行
++       // 次の単語をresponseに格納
++       const response = await fetch(
++         "/shiritori",
++         {
++           method: "POST",
++           headers: { "Content-Type": "application/json" },
++           body: JSON.stringify({ nextWord: nextWordInputText })
++         }
++       );
++
++       const previousWord = await response.text();
 + 
-+     const previousWord = await response.text();
-+ 
-+     // id: previousWordのタグを取得
-+     const paragraph = document.querySelector("#previousWord");
-+     // 取得したタグの中身を書き換える
-+     paragraph.innerHTML = `前の単語: ${previousWord}`;
-+     // inputタグの中身を消去する
-+     nextWordInput.value = "";
-+   }
-  </script>
-</body>
++       // id: previousWordのタグを取得
++       const paragraph = document.querySelector("#previousWord");
++       // 取得したタグの中身を書き換える
++       paragraph.innerHTML = `前の単語: ${previousWord}`;
++       // inputタグの中身を消去する
++       nextWordInput.value = "";
++     }
+    </script>
+  </body>
 ```
 
 2. ブラウザを読み込み直して、入力フォームが表示されていればOKです！
@@ -789,35 +789,35 @@ Deno.serve(async (_req) => {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-    // POST /shiritori: 次の単語を受け取って保存する
-    if (_req.method === "POST" && pathname === "/shiritori") {
-        // リクエストのペイロードを取得
-        const requestJson = await _req.json();
-        // JSONの中からnextWordを取得
-        const nextWord = requestJson["nextWord"];
+      // POST /shiritori: 次の単語を受け取って保存する
+      if (_req.method === "POST" && pathname === "/shiritori") {
+          // リクエストのペイロードを取得
+          const requestJson = await _req.json();
+          // JSONの中からnextWordを取得
+          const nextWord = requestJson["nextWord"];
 
-        // previousWordの末尾とnextWordの先頭が同一か確認
-        if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
-            // 同一であれば、previousWordを更新
-            previousWord = nextWord;
-        }
-+       // 同一でない単語の入力時に、エラーを返す
-+       else {
-+           return new Response(
-+               JSON.stringify({
-+                   "errorMessage": "前の単語に続いていません",
-+                   "errorCode": "10001"
-+               }),
-+               {
-+                   status: 400,
-+                   headers: { "Content-Type": "application/json; charset=utf-8" },
-+               }
-+           );
-+       }
+          // previousWordの末尾とnextWordの先頭が同一か確認
+          if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
+              // 同一であれば、previousWordを更新
+              previousWord = nextWord;
+          }
++         // 同一でない単語の入力時に、エラーを返す
++         else {
++             return new Response(
++                 JSON.stringify({
++                     "errorMessage": "前の単語に続いていません",
++                     "errorCode": "10001"
++                 }),
++                 {
++                     status: 400,
++                     headers: { "Content-Type": "application/json; charset=utf-8" },
++                 }
++             );
++         }
 
-        // 現在の単語を返す
-        return new Response(previousWord);
-    }
+          // 現在の単語を返す
+          return new Response(previousWord);
+      }
 ```
 
 2. `public/index.html`ファイルを以下の内容で編集します。
