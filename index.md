@@ -120,7 +120,7 @@ Microsoftが提供しているソースコードエディタです。VSCodeと�
 
 公式サイトの説明に従い、Visual Studio Codeをインストールしてみましょう。
 
-https://code.visualstudio.com/
+[https://code.visualstudio.com/](https://code.visualstudio.com/)
 
 ご自身のOSに合わせたものをダウンロードして、インストールしましょう。
 
