@@ -50,12 +50,7 @@ jobs:
         with:
           source: index.md
           output: dest/index.html
-          favicon: data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>
-          meta-title: "jig.jp サマーインターンシップ2025 選考課題"
-          document: |
-            {
-              "title": "jig.jp サマーインターンシップ2025 選考課題"
-            }
+          config: .github/workflows/config.json
 
       - name: デバッグ出力
         run: |
