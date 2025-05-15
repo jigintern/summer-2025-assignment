@@ -1,0 +1,86 @@
+name: markdown2html-github-actions
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  LANG: "ja_JP.UTF-8"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v4
+
+      - name: GitHub Pages設定
+        uses: actions/configure-pages@v3
+
+      - name: Node.jsのセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 必要なパッケージのインストール
+        run: sudo apt update && sudo apt install jq fonts-noto
+
+      - name: markdown-to-html-cliのインストール
+        run: npm install -g markdown-to-html-cli
+
+      - name: 出力ディレクトリの作成と画像のコピー
+        run: |
+          mkdir -p dest
+          if [ -d "./imgs" ]; then
+            cp -r ./imgs ./dest/
+          fi
+
+      - name: HTMLの生成
+        uses: jaywcjlove/markdown-to-html-cli@main
+        with:
+          source: index.md
+          output: dest/index.html
+          config: .github/workflows/config.json
+
+      - name: デバッグ出力
+        run: |
+          ls -la dest/
+          find dest -type f | sort
+
+      - name: ビルド成果物のアップロード
+        uses: actions/upload-artifact@v4
+        with:
+          name: shiritori-assignment
+          path: ./dest
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: ビルド成果物のダウンロード
+        uses: actions/download-artifact@v4
+        with:
+          name: shiritori-assignment
+          path: ./
+
+      - name: GitHub Pagesへのアップロード
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./
+
+      - name: GitHub Pagesへのデプロイ
+        id: deployment
+        uses: actions/deploy-pages@v4

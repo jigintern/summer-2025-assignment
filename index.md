@@ -40,12 +40,15 @@
   }
 </style>
 
-# jig.jp サマーインターンシップ2024 選考課題
+# jig.jp サマーインターンシップ 選考課題
 
 ## はじめに
 
 今回のインターンシップの選考課題では、「しりとりアプリ」を実装して提出していただきます。  
 使用言語やフレームワークに制限はありませんので、得意な環境で取り組んでください。
+
+また、AIの活用について特に制限はありません、必要に応じて使用して大丈夫です。  
+ただし、後述の通り、使用した場合は「何をどの部分にどのように活用したか」を README に記入してください。
 
 ## 課題内容
 
@@ -53,17 +56,11 @@
 
 ### 提出物
 
-ソースコードと`README`を掲載したGitHubリポジトリのリンクを以下のGoogleフォームから提出してください。 
+ソースコードとREADMEを掲載したGitHubリポジトリのリンクを以下のGoogleフォームから提出してください。  
 成果物のフォーマットは問いませんので、実行ファイルやデプロイされたWebアプリのURL等、動作が確認できるものを提出してください。また、確認用に特殊な環境が必要な場合は、事前に相談してください。
 
-また、`README`には以下の内容を記述してください。
-
-- 実装した機能やデザインの説明
-- アプリの動作確認の方法（WebサイトのURLや、セットアップを含めたアプリケーションの実行手順等）
-- 参考にしたWebサイト
-
 **課題提出用Googleフォーム**  
-[https://forms.gle/6qYWrwsMaz8v7yLf7](https://forms.gle/6qYWrwsMaz8v7yLf7)
+[https://forms.gle/rtNgaMhQ33CpKWneA](https://forms.gle/rtNgaMhQ33CpKWneA)
 
 ### 仕様
 
@@ -76,8 +73,7 @@
 - 過去に使用した単語が入力されたら、ゲームを終了する
 - ゲーム中や終了後に、最初からやり直せるリセット機能をつける
 
-また、便利・面白いと思う任意の機能を考えて実装してください。実装する機能の個数は問いません。  
-以下に例を示しますが、他に機能を思いついた場合は、自由に実装してみてください。
+また、追加で便利・面白いと思う任意の機能を考えて、最低1つ以上実装してください。以下に例を示します。
 
 - 最初の単語がランダムに決まるようにする
 - 一文字のものや絵文字等、しりとりとして不適切な単語は入力できないようにする
@@ -86,7 +82,14 @@
 - しりとりの単語の履歴を表示できるようにする
 - 複数のユーザーが対戦できるようにする
 
-実装した内容は、`README`に記載してください。
+また、前述の通りリポジトリにはREADMEを作成して含めてください。  
+READMEには以下の内容を記述してください。  
+それ以外の内容が含まれている分には問題ありません。
+
+- 実装した機能やデザインの詳細な説明
+- アプリの動作確認の方法（WebサイトのURLや、セットアップを含めたアプリケーションの実行手順等）
+- 参考にしたWebサイト
+- AIを使った場合はどの部分に対して、どのように使用したか
 
 ### 実装環境
 
@@ -104,7 +107,31 @@
 
 [https://github.com/](https://github.com/)
 
-## Step 1. Denoのインストール
+## Step 1. VSCodeのインストール
+
+### Visual Studio Codeとは
+
+Microsoftが提供しているソースコードエディタです。VSCodeとも呼ばれます。  
+開発に必要な機能の多くを搭載しており、プラグインの開発も企業・個人問わず行われているので、特に拘りが無ければインストールをおすすめします。
+
+既にお気に入りのエディタがある場合は、インストールせずに進めていただいても構いません。
+
+### Visual Studio Codeのインストール
+
+公式サイトの説明に従い、Visual Studio Codeをインストールしてみましょう。
+
+[https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+ご自身のOSに合わせたものをダウンロードして、インストールしましょう。
+
+### ターミナルの準備
+
+VSCode上で、Ctrl(Macの場合はCmd)とJを押すことで、下部のパネルを表示を切り替えることができます。  
+パネル内にある「ターミナル」からコマンドを実行することができるため、コマンドの実行はこちらを使用してください。
+
+WindowsのPowerShellやMacのターミナルを使用しても構いません。
+
+## Step 2. Denoのインストール
 
 ### Deno (ディーノ) とは
 
@@ -125,22 +152,25 @@ DenoはNode.jsの作者であるライアン・ダール氏によって実装さ
 「Install Deno」の項目に記載されたコマンドをご自身のOSに合わせて実行するだけで、インストールが可能です。  
 インストールが完了したら、以下のコマンドを実行してみましょう。バージョン情報が表示されればOKです！
 
+> バージョン情報は資料作成時のものです。  
+> これと同じか、より新しいバージョンになっていることを確認してください。
+
 ```sh
 # 入力
 deno --version
 
 # 出力
-# deno 1.42.2 (release, aarch64-apple-darwin)
-# v8 12.3.219.9
-# typescript 5.4.3
+# deno 2.2.11 (stable, release, aarch64-apple-darwin)
+# v8 13.5.212.10-rusty
+# typescript 5.7.3
 ```
 
 ### DenoでHello World
 
-Hello Worldプログラムを作って実行してみましょう。  
+Hello Worldを出力するプログラムを作って実行してみましょう。  
 空のフォルダを作り、中に `server.js` を作成して、以下のプログラムを書き込んでください。
 
-```
+```js
 console.log("Hello World!");
 ```
 
@@ -152,22 +182,7 @@ deno run server.js
 # Hello World!
 ```
 
-## Step 2. Visual Studio Codeのインストール・セットアップ
-
-### Visual Studio Codeとは
-
-Microsoftが提供しているソースコードエディタです。VS Codeとも呼ばれます。  
-開発に必要な機能の多くを搭載しており、プラグインの開発も企業・個人問わず行われているので、特に拘りが無ければインストールをおすすめします。
-
-既にお気に入りのエディタがある場合は、インストールせずに進めていただいても構いません。
-
-### Visual Studio Codeのインストール
-
-公式サイトの説明に従い、Visual Studio Codeをインストールしてみましょう。
-
-https://code.visualstudio.com/
-
-ご自身のOSに合わせたものをダウンロードして、インストールしましょう。
+## Step 3. VSCodeのセットアップ
 
 ### Denoの拡張機能をインストール
 
@@ -184,8 +199,44 @@ VS CodeにDenoの拡張機能をインストールしましょう。画面左側
 
 ![](./imgs/03_vscode-deno-setup-check.png)
 
+### 設定の追記(任意)
 
-## Step 3. DenoでHTTPサーバーを立ててみよう
+追加で、保存時にコードのフォーマットを行うように設定しましょう。  
+Denoでは、`deno fmt` コマンドでコードのフォーマットを行うことができますが、VSCode上でファイルを変更し、保存した際に自動で実行されるようにします。
+
+先ほど作成された、`.vscode/settings.json`に以下の内容を追記します。
+
+```diff
+  {
+-     "deno.enable": true
++     "deno.enable": true,
++     "deno.lint": true,
++     "editor.formatOnSave": true,
++     "editor.defaultFormatter": "denoland.vscode-deno",
++     "[html]": {
++         "editor.defaultFormatter": "vscode.html-language-features",
++         "editor.tabSize": 2,
++     }
+  }
+```
+
+各設定項目について、簡単に説明しておくと以下のようになります。
+
+- `"deno.enable": true`  
+  - Denoの拡張機能を有効化します
+- `"deno.lint": true`  
+  - DenoのLint機能を有効化します
+- `"editor.formatOnSave": true`  
+  - ファイルを保存したときに、自動でフォーマットを実行します
+- `"editor.defaultFormatter": "denoland.vscode-deno"`  
+  - デフォルトのフォーマッタでDenoを認識できるようにします
+- `"[html]"`セクションの設定 
+  - `"editor.defaultFormatter": "vscode.html-language-features"`  
+    - HTMLファイル用のデフォルトフォーマッタを指定します。
+  - `"editor.tabSize": 2`  
+    - HTMLファイルのインデント幅を2スペースに設定します。
+
+## Step 4. DenoでHTTPサーバーを立ててみよう
 
 DenoでHTTPサーバーを立ち上げてみましょう。
 
@@ -197,13 +248,11 @@ Denoが提供している`serve`関数を利用することで、簡単にHTTP�
 
 1. `server.js`の内容を以下のように書き換えて保存してください。
 
-```
+```js
 // server.js
 
 // localhostにDenoのHTTPサーバーを展開
-Deno.serve(request => {
-    return new Response("Hello Deno!");
-});
+Deno.serve((_req) => new Response("Hello Deno!"));
 ```
 
 2. `--allow-net`オプションをつけて`server.js`を起動してください。このオプションがない場合、Denoがネットワークにアクセスできません。
@@ -220,23 +269,23 @@ deno run --allow-net server.js
 
 5. 動作が確認できたら、「Control+C」でプログラムを終了します。
 
-## Step 4. サーバーに変数を定義してみよう
+## Step 5. サーバーに変数を定義してみよう
 
 HTTPサーバー上にアクセス数をカウントする変数を追加して、アクセス数を確認してみましょう。
 
-1. `server.js`ファイルを以下の内容で編集します。
+1. `server.js`ファイルを以下の内容に書き換えます。
 
-```diff
-  // server.js
-+ // アクセス数を保持する変数をグローバル領域に定義
-+ let count = 0;
-+ 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(request => {
--     return new Response("Hello Deno!");
-+     count++;
-+     return new Response(`Count: ${count}`);
-  });
+```js
+// server.js
+// アクセス数を保持する変数をグローバル領域に定義
+let count = 0;
+
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve((_req) => {
+    count++;
+    return new Response(`Hello World! ${count}`);
+});
 ```
 
 2. `--allow-net`に加えて、`--watch`オプションを追加して`server.js`を起動してください。このオプションを指定すると、Denoがファイルの変更を自動でサーバーに反映してくれます。
@@ -251,64 +300,64 @@ deno run --allow-net --watch server.js
 
 ![](./imgs/05_tutorial-access-count.png)
 
-## Step 5. HTMLを表示してみよう
+## Step 6. HTMLを表示してみよう
 
-ブラウザにHTMLを表示させてみましょう。レスポンスに`h1`タグをつけ、ヘッダ情報を指定します。
+ブラウザにHTMLを表示させてみましょう。レスポンスをHTML形式に変更し、ヘッダ情報に`Content-Type`を指定します。
 
-今回はヘッダ情報の`Content-Type`に`text/html`を指定して、ブラウザにHTML形式のデータを返すことを通知します。`Content-Type`には様々なものがあり、例として以下のようなものが挙げられます。
+`Content-Type`に`text/html`を指定して、ブラウザにHTML形式のデータを返すことを通知します。`Content-Type`には様々なものがあり、例として以下のようなものが挙げられます。
 
-| Content-Type | データ |
-| -- | -- |
-| text/html | HTML |
-| text/css | CSS |
-| text/javascript | JavaScript |
-| application/json | JSON形式 |
-| image/jpeg | 画像（JPEG）ファイル |
-| image/png | 画像（PNG）ファイル |
+| Content-Type     | データ               |
+| ---------------- | -------------------- |
+| text/html        | HTML                 |
+| text/css         | CSS                  |
+| text/javascript  | JavaScript           |
+| application/json | JSON形式             |
+| image/jpeg       | 画像（JPEG）ファイル |
+| image/png        | 画像（PNG）ファイル  |
 
-1. `server.js`ファイルを以下の内容で編集します。
+1. `server.js`ファイルを以下の内容で置き換えます。
 
-```diff
-- // アクセス数を保持する変数をグローバル領域に定義
-- let count = 0;
-- 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(request => {
--     count++;
--     return new Response(`Count: ${count}`);
-+     return new Response(
-+         // Responseの第一引数にレスポンスのbodyを設置
-+         "<h1>H1見出しです</h1>",
-+         // Responseの第二引数にヘッダ情報等の付加情報を設置
-+         {
-+             // レスポンスにヘッダ情報を付加
-+             headers: {
-+                 // text/html形式のデータで、文字コードはUTF-8であること
-+                 "Content-Type": "text/html; charset=utf-8"
-+             }
-+         }
-+     );
-  });
+```js
+// server.js
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve((_req) => {
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        "<h1>H1見出しです</h1>",
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
+});
+
 ```
 
 2. ブラウザを再読み込みして、`H1見出しです`と大きく表示されればOKです！
 
 ![](./imgs/06_tutorial-h1-tag.png)
 
-## Step 6. ファイルサーバーを実装してみよう
+## Step 7. ファイルサーバーを実装してみよう
 
 ### HTMLファイルを読み込んでみよう
 
-直前のセクションではHTMLを文字列としてスクリプト内に直に記述しましたが、別のファイルとして保存しておいたものを読み込むようにしてみましょう。
+前のステップではHTMLを文字列として直接記述しましたが、別のファイルとして保存しておいたHTMLを読み込むようにしてみます
 
 また、ファイルの読み込みが完了するまではレスポンスを返さないように、処理に`async-await`を追加します。JavaScriptでは非同期処理が採用されているため、`async-await`を記載しなければファイルがうまく表示できない場合があります。
 
-> Topic: 「JavaScript 非同期処理」「JavaScript async await」などで調べてみましょう。
+> 非同期処理について、詳しく解説はしません。気になる方はMDNなどを参考にしてください。
+> https://developer.mozilla.org/ja/docs/Learn_web_development/Extensions/Async_JS
 
 1. `public`フォルダを作成し、中に`index.html`を作成します。フォルダ構成は以下のようになります。
 
 ```
 ├─ .vscode/
+│  └─ settings.json
 ├─ public/
 │  └─ index.html
 └─ server.js
@@ -316,41 +365,57 @@ deno run --allow-net --watch server.js
 
 2. `index.html`ファイルに以下の内容を記述します。
 
-```
+```html
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 
-<!-- headタグの中にはメタデータ等を記載する -->
 <head>
-  <meta charset="utf-8">
+    <!-- headタグの中にはメタデータ等を記載する -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
-<!-- bodyタグの中には実際に表示するものなどを書く -->
 <body>
-  <h1>H1見出しですよ</h1>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
+    <h1>H1見出しですよ</h1>
 </body>
 
 </html>
 ```
 
-3. `server.js`ファイルを以下の内容で編集します。
+3. `server.js`ファイルを以下の内容で置き換えます。
 
-```diff
-  // localhostにDenoのHTTPサーバーを展開
-- Deno.serve(request => {
-+ Deno.serve(async (request) => {
-+     const htmlText = await Deno.readTextFile("./public/index.html");
-      return new Response(
-          // Responseの第一引数にレスポンスのbodyを設置
--         "<h1>H1見出しです</h1>",
-+         htmlText,
-          // Responseの第二引数にヘッダ情報等の付加情報を設置
-          {
-              // レスポンスにヘッダ情報を付加
-  ...
+```js
+// server.js
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
+    const htmlText = await Deno.readTextFile("./public/index.html");
+
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        htmlText,
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
+});
+
 ```
 
-4. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
+4. このプログラムではファイルの読み込みが発生するので、`--allow-net`に加えて、`--allow-read`が必要になります。しかし、一つずつ許可するのは大変なので、開発時は全てを許可するようにして再度実行します。
+
+```sh
+deno run -A --watch server.js
+```
+
+5. ブラウザを再読み込みして、`H1見出しですよ`と大きく表示されればOKです！
 
 ![](./imgs/07_tutorial-read-file.png)
 
@@ -362,6 +427,7 @@ CSSファイルを作成して、読み込めるようにしてみましょう�
 
 ```
 ├─ .vscode/
+│  ├─ settings.json
 ├─ public/
 │  ├─ index.html
 │  └─ styles.css
@@ -370,8 +436,9 @@ CSSファイルを作成して、読み込めるようにしてみましょう�
 
 2. 各ファイルを、以下のように編集します。
 
-```
+```css
 /* public/styles.css */
+
 body {
     background: skyblue;
 }
@@ -379,45 +446,56 @@ body {
 
 ```diff
   <!-- public/index.html -->
-  ...
-  <!-- headタグの中にはメタデータ等を記載する -->
+  ...(省略)
   <head>
-    <meta charset="utf-8">
+    <!-- headタグの中にはメタデータ等を記載する -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 +   <link rel="stylesheet" href="styles.css">
   </head>
-
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
-  ...
+  ...(省略)
 ```
 
-```diff
-  // server.js
-  ...
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(async (request) => {
-+     // パス名を取得する
-+     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-+     const pathname = new URL(request.url).pathname;
-+     console.log(`pathname: ${pathname}`);
-+ 
-+     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
-+     if (pathname === "/styles.css") {
-+         const cssText = await Deno.readTextFile("./public/styles.css");
-+         return new Response(
-+             cssText,
-+             {
-+                 headers: {
-+                     // text/css形式のデータで、文字コードはUTF-8であること
-+                     "Content-Type": "text/css; charset=utf-8"
-+                 }
-+             }
-+         );
-+     }
-+ 
-      const htmlText = await Deno.readTextFile("./public/index.html");
-      return new Response(
-          // Responseの第一引数にレスポンスのbodyを設置
-  ...
+```js
+// server.js
+
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
+    // パス名を取得する
+    // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
+    const pathname = new URL(_req.url).pathname;
+    console.log(`pathname: ${pathname}`);
+
+    // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
+    if (pathname === "/styles.css") {
+        const cssText = await Deno.readTextFile("./public/styles.css");
+        return new Response(
+            cssText,
+            {
+                headers: {
+                    // text/css形式のデータで、文字コードはUTF-8であること
+                    "Content-Type": "text/css; charset=utf-8"
+                }
+            }
+        );
+    }
+
+    // http://localhost:8000/ へのアクセス時、"./public/index.html"を返す
+    const htmlText = await Deno.readTextFile("./public/index.html");
+    return new Response(
+        // Responseの第一引数にレスポンスのbodyを設置
+        htmlText,
+        // Responseの第二引数にヘッダ情報等の付加情報を設置
+        {
+            // レスポンスにヘッダ情報を付加
+            headers: {
+                // text/html形式のデータで、文字コードはUTF-8であること
+                "Content-Type": "text/html; charset=utf-8"
+            }
+        }
+    );
+});
 ```
 
 3. ブラウザを再読み込みして、背景が青くなっていればOKです！
@@ -426,95 +504,60 @@ body {
 
 ### publicフォルダ全体を公開してみよう
 
-ページ数が増えた場合に、返すファイルを一つ一つ指定するのは手間がかかります。  
+1つずつ返すファイルを指定する実装では、ページ数が増えた場合に手間がかかります。  
 そこで、`public`以下を静的ファイルサーバーとして公開し、ここに入れたファイルは自動で公開されるようにしてみましょう。
 
-1. `server.js`ファイルを以下の内容で編集します。
+1. `server.js`ファイルを以下の内容で置き換えます。
 
-```diff
-  // deno.landに公開されているモジュールをimport
-  // denoではURLを直に記載してimportできます
-+ import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
+```js
+// server.js
+import { serveDir } from "jsr:@std/http/file-server";
 
-  // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(async (request) => {
-      // パス名を取得する
-      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-      const pathname = new URL(request.url).pathname;
-      console.log(`pathname: ${pathname}`);
-  
--     // http://localhost:8000/styles.css へのアクセス時、"./public/styles.css"を返す
--     if (pathname === "/styles.css") {
--         const cssText = await Deno.readTextFile("./public/styles.css");
--         return new Response(
--             cssText,
--             {
--                 headers: {
--                     // text/css形式のデータで、文字コードはUTF-8であること
--                     "Content-Type": "text/css; charset=utf-8"
--                 }
--             }
--         );
--     }
-- 
--     const htmlText = await Deno.readTextFile("./public/index.html");
--     return new Response(
--         // Responseの第一引数にレスポンスのbodyを設置
--         htmlText,
--         // Responseの第二引数にヘッダ情報等の付加情報を設置
--             // レスポンスにヘッダ情報を付加
--             headers: {
--                 // text/html形式のデータで、文字コードはUTF-8であること
--                 "Content-Type": "text/html; charset=utf-8"
--             }
--     );
-+     // ./public以下のファイルを公開
-+     return serveDir(
-+         request,
-+         {
-+             /*
-+             - fsRoot: 公開するフォルダを指定
-+             - urlRoot: フォルダを展開するURLを指定。今回はlocalhost:8000/に直に展開する
-+             - enableCors: CORSの設定を付加するか
-+             */
-+             fsRoot: "./public/",
-+             urlRoot: "",
-+             enableCors: true,
-+         }
-+     );
-  
-  });
+// localhostにDenoのHTTPサーバーを展開
+Deno.serve(async (_req) => {
+    // ./public以下のファイルを公開
+    return serveDir(
+        _req,
+        {
+            /*
+            - fsRoot: 公開するフォルダを指定
+            - urlRoot: フォルダを展開するURLを指定。今回はlocalhost:8000/に直に展開する
+            - enableCors: CORSの設定を付加するか
+            */
+            fsRoot: "./public/",
+            urlRoot: "",
+            enableCors: true,
+        }
+    );
+});
 ```
 
 2. ブラウザを再読み込みして、先程と同じ内容が表示されればOKです！
 
-## Step 7. ブラウザでJavaScriptを実行してみよう
+## Step 8. ブラウザでJavaScriptを実行してみよう
 
-ブラウザでJavaScriptを実行してみましょう。`alert`関数を使用して、ブラウザ上でアラートを出力します。
-
+ブラウザでJavaScriptを実行してみましょう。`alert`関数を使用して、ブラウザ上でアラートを出力します。  
 今回は簡単のため、HTMLファイルに直に処理を記述します。
 
-1. `public/index.html`ファイルを以下の内容で編集します。
+1. `public/index.html`のbodyに以下のように追記します。
 
 ```diff
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
   <body>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
     <h1>H1見出しですよ</h1>
-+ 
++
 +   <!-- JavaScriptを実行 -->
 +   <script>
 +     alert("Hello JavaScript!");
 +   </script>
   </body>
-  
-  </html>
 ```
 
 2. ブラウザを再読み込みして、アラートが表示されればOKです！
 
 ![](./imgs/09_tutorial-javascript-alert.png)
 
-## Step 8. しりとりの実装: サーバーの処理を実装してみよう
+## Step 9. しりとりの実装: サーバーの処理を実装してみよう
 
 ここからは、実際に「しりとり」をするWebアプリを実装します。
 実装するアプリは、以下の仕様を満たしたものとします。
@@ -534,28 +577,26 @@ body {
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-  ...
-  import { serveDir } from "https://deno.land/std@0.223.0/http/file_server.ts";
-  
+  // server.js
+  import { serveDir } from "jsr:@std/http/file-server";
+
 + // 直前の単語を保持しておく
 + let previousWord = "しりとり";
-+ 
+
   // localhostにDenoのHTTPサーバーを展開
-  Deno.serve(async (request) => {
-      // パス名を取得する
-      // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
-      const pathname = new URL(request.url).pathname;
-      console.log(`pathname: ${pathname}`);
-  
+  Deno.serve(async (_req) => {
++     // パス名を取得する
++     // http://localhost:8000/hoge に接続した場合"/hoge"が取得できる
++     const pathname = new URL(_req.url).pathname
++     console.log(`pathname: ${pathname}`);
++ 
 +     // GET /shiritori: 直前の単語を返す
-+     if (request.method === "GET" && pathname === "/shiritori") {
++     if (_req.method === "GET" && pathname === "/shiritori") {
 +         return new Response(previousWord);
 +     }
 + 
       // ./public以下のファイルを公開
-      return serveDir(
-          request,
-  ...	
+  ...
 ```
 
 2. ブラウザで`http://localhost:8000/shiritori`にアクセスして、「しりとり」と表示されればOKです！
@@ -570,14 +611,14 @@ body {
 
 ```diff
       // GET /shiritori: 直前の単語を返す
-      if (request.method === "GET" && pathname === "/shiritori") {
+      if (_req.method === "GET" && pathname === "/shiritori") {
           return new Response(previousWord);
       }
   
-+     // POST /shiritori: 次の単語を入力する
-+     if (request.method === "POST" && pathname === "/shiritori") {
++     // POST /shiritori: 次の単語を受け取って保存する
++     if (_req.method === "POST" && pathname === "/shiritori") {
 +         // リクエストのペイロードを取得
-+         const requestJson = await request.json();
++         const requestJson = await _req.json();
 +         // JSONの中からnextWordを取得
 +         const nextWord = requestJson["nextWord"];
 + 
@@ -593,12 +634,12 @@ body {
 + 
       // ./public以下のファイルを公開
       return serveDir(
-          request,
+          _req,
 ```
 
 2. `POST`のリクエストの送信は専用のツールやOSによって異なるコマンドが必要なので、動作確認はスキップして、次のセクションに進みましょう。もし動作確認の方法が分かるようであれば、動作確認してみてください。
 
-## Step 9. しりとりの実装: Webの処理を実装してみよう
+## Step 10. しりとりの実装: Webの処理を実装してみよう
 
 前セクションの内容を踏まえて、Web側の処理を実装しましょう。
 
@@ -609,14 +650,13 @@ body {
 1. `public/index.html`ファイルを以下の内容で編集します。`fetch`を利用して`GET /shiritori`にリクエストを送信し、受信したデータを`p`タグに挿入します。
 
 ```diff
-  ...
-  <!-- bodyタグの中には実際に表示するものなどを書く -->
   <body>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
 -   <h1>H1見出しですよ</h1>
 +   <h1>しりとり</h1>
 +   <!-- 現在の単語を表示する場所 -->
 +   <p id="previousWord"></p>
-  
+
     <!-- JavaScriptを実行 -->
     <script>
 -     alert("Hello JavaScript!");
@@ -632,7 +672,6 @@ body {
 +     }
     </script>
   </body>
-...
 ```
 
 2. ブラウザを`http://localhost:8000`で再読み込みして、「しりとり」と表示されればOKです！
@@ -676,13 +715,15 @@ body {
 1. `public/index.html`ファイルを以下の内容で編集します。送信ボタンが押下された時に`input`タグの中身を取得して、`POST /shiritori`に送信します。
 
 ```diff
-   <h1>しりとり</h1>
+  <body>
+    <!-- bodyタグの中には実際に表示するものなどを書く -->
+    <h1>しりとり</h1>
     <!-- 現在の単語を表示する場所 -->
     <p id="previousWord"></p>
 +   <!-- 次の文字を入力するフォーム -->
 +   <input id="nextWordInput" type="text" />
 +   <button id="nextWordSendButton">送信</button>
-  
+
     <!-- JavaScriptを実行 -->
     <script>
       window.onload = async (event) => {
@@ -696,6 +737,7 @@ body {
 -           body: JSON.stringify({ nextWord: "りんご" })
 -         }
 -       );
+-
         // GET /shiritoriを実行
         const response = await fetch("/shiritori", { method: "GET" });
         // responseの中からレスポンスのテキストデータを取得
@@ -705,7 +747,7 @@ body {
         // 取得したタグの中身を書き換える
         paragraph.innerHTML = `前の単語: ${previousWord}`;
       }
-  
+ 
 +     // 送信ボタンの押下時に実行
 +     document.querySelector("#nextWordSendButton").onclick = async(event) => {
 +       // inputタグを取得
@@ -722,7 +764,7 @@ body {
 +           body: JSON.stringify({ nextWord: nextWordInputText })
 +         }
 +       );
-+ 
++
 +       const previousWord = await response.text();
 + 
 +       // id: previousWordのタグを取得
@@ -740,19 +782,20 @@ body {
 
 > Topic: 単語を色々入力して、しりとりとして成立しているか確認してみましょう。
 
-## Step 10. しりとりの実装: エラーを実装してみよう
+## Step 11. しりとりの実装: エラーを実装してみよう
 
 「りんご」の次に「らっぱ」などの続かない単語が入力された時に、エラーを表示できるようにしてみましょう。ここでは、`application/json`形式のデータを返すようにしてみます。Webとサーバーを以下のように書き換えてください。
 
 1. `server.js`ファイルを以下の内容で編集します。
 
 ```diff
-      // POST /shiritori: 次の単語を入力する
-      if (request.method === "POST" && pathname === "/shiritori") {
+      // POST /shiritori: 次の単語を受け取って保存する
+      if (_req.method === "POST" && pathname === "/shiritori") {
           // リクエストのペイロードを取得
-          const requestJson = await request.json();
+          const requestJson = await _req.json();
           // JSONの中からnextWordを取得
           const nextWord = requestJson["nextWord"];
+
           // previousWordの末尾とnextWordの先頭が同一か確認
           if (previousWord.slice(-1) === nextWord.slice(0, 1)) {
               // 同一であれば、previousWordを更新
@@ -771,6 +814,10 @@ body {
 +                 }
 +             );
 +         }
+
+          // 現在の単語を返す
+          return new Response(previousWord);
+      }
 ```
 
 2. `public/index.html`ファイルを以下の内容で編集します。
@@ -805,7 +852,7 @@ body {
 
 3. ブラウザを再読み込みして、不正な単語を入力してみましょう。アラートが表示されればOKです！
 
-## Step 11. GitHubのリポジトリを作ろう
+## Step 12. GitHubのリポジトリを作ろう
 
 作成したWebアプリをGitHubリポジトリに保存し、コードを公開しましょう。
 
@@ -822,12 +869,14 @@ GitHubアカウントでログインしてリポジトリを作成し、成果�
 
 ![](./imgs/11_github-initialize-project.png)
 
+> Topic: コミット、プッシュなど、Gitの操作について軽く調べてみましょう。
+
 
 3. 以下の例では、`README.md`も一緒にプッシュしてみました。GitHubでは、`README.md`に記述した内容が画面下部に表示されます。ここに環境構築手順やリポジトリの説明等を記載すると分かりやすいです。
 
 ![](./imgs/12_github-pushed.png)
 
-## Step 12. Deno Deployにデプロイしてみよう
+## Step 13. Deno Deployにデプロイしてみよう
 
 > 注意
 > GitHubアカウントの作成後、一週間程はDeno Deployの登録ができません。登録できない場合は、Step 12はスキップしてStep 13を先に終わらせてください。
@@ -872,17 +921,17 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
 ![](./imgs/21_deno-deploy-success.png)
 ![](./imgs/22_deno-deploy-web-site.png)
 
-## Step13. おわりに
+## Step14. おわりに
 
 ここまでで、Deno DeployにWebアプリケーションをデプロイして動作させることができました。Deno DeployはGitHubと連携していますので、GitHubを更新すれば自動で修正された内容がデプロイされるようになっています。
 
-このまま実装を進めて、課題として示されたアプリケーションの仕様を満たしたものを実装してみましょう。  
-以降はご自身で実装を進めていただきますが、次セクションに実装のヒントを記載していますので、参考にしても構いません。
+以降はご自身で実装を進めていただきます。  
+次セクションに実装のヒントを記載していますので、参考にしてみてください。
 
-必須仕様を満たした上で、便利・面白いと思う任意の機能を実装したら完成です。
-アプリケーションが完成したら、`README`を記載して、Google フォームから提出してください。
+提出は資料冒頭に記載のGoogle フォームからお願いします。  
+必ず、仕様を満たしていることを確認し、`README`を記載しましょう！
 
-## Step 14. 実装のヒント
+## Step 15. 実装のヒント
 
 ここでは、必須仕様を満たすための実装のヒントを掲載します。
 
@@ -975,7 +1024,7 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
       }
 
 +     // POST /reset: リセットする
-+     // request.methodとpathnameを確認
++     // _req.methodとpathnameを確認
 +     if (...) {
 +         // 既存の単語の履歴を初期化する
 +         // 初期化した単語を返す
@@ -983,7 +1032,7 @@ GitHubのリポジトリを元に、Deno Deployのプロジェクトを作成し
 + 
       // ./public以下のファイルを公開
       return serveDir(
-          request,
+          _req,
   ...
 ```
 
