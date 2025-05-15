@@ -59,8 +59,8 @@
 ソースコードとREADMEを掲載したGitHubリポジトリのリンクを以下のGoogleフォームから提出してください。  
 成果物のフォーマットは問いませんので、実行ファイルやデプロイされたWebアプリのURL等、動作が確認できるものを提出してください。また、確認用に特殊な環境が必要な場合は、事前に相談してください。
 
-<!-- **課題提出用Googleフォーム**  
-[https://forms.gle/6qYWrwsMaz8v7yLf7](https://forms.gle/6qYWrwsMaz8v7yLf7) -->
+**課題提出用Googleフォーム**  
+[https://forms.gle/rtNgaMhQ33CpKWneA](https://forms.gle/rtNgaMhQ33CpKWneA)
 
 ### 仕様
 
